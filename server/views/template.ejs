@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css"/>
+		<style>
+			body {
+				background: linear-gradient(to top, #ECE9E6, #FFF);
+			}
+
+			.Header {
+				padding: 10px 20px;
+				box-shadow: 0 0 2px rgba(0, 0, 0, 0.24),
+				            0 0 4px rgba(0, 0, 0, 0.12);
+				background: #FFF;
+			}
+			.Header-title {
+				font-size: 18px;
+				color: #4a4a4a;
+			}
+			.Header-title:hover {
+				color: #777;
+			}
+
+			.Page {
+				max-width: 680px;
+				margin: 0 auto;
+				padding: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="Header">
+			<a class="Header-title" href="/admin">eCommerce Admin</a>
+		</header>
+		<main class="Page">
+			<%- include(`./pages/${page}`, data) %>
+		</main>
+	</body>
+</html>

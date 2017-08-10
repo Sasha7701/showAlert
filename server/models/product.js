@@ -11,6 +11,10 @@ const Product = sequelize.define("product", {
 		type: Sequelize.STRING(128),
 		notNull: true,
 	},
+	image: {
+		type: Sequelize.STRING(1024),
+		notNull: true,
+	},
 	price: {
 		type: Sequelize.FLOAT,
 		notNull: true,
@@ -21,7 +25,7 @@ const Product = sequelize.define("product", {
 	rating: {
 		type: Sequelize.INTEGER,
 		validate: {
-			min: 0,
+			min: 1,
 			max: 10,
 		},
 	},
@@ -38,5 +42,44 @@ const Product = sequelize.define("product", {
 		type: Sequelize.JSON,
 	},
 });
+
+Product.parseForm = function(body) {
+	let error = null;
+
+	// Validation
+	if (!body.name) {
+		error = "Name is required";
+	}
+	if (!body.description) {
+		error = "Description is required";
+	}
+	if (!body.image) {
+		error = "Image is required";
+	}
+	if (!body.price) {
+		error = "Price is required";
+	}
+	if (error) {
+		throw new Error(error);
+	}
+
+	// Cleanup
+	const specs = body.specLabel.reduce((prev, label, idx) => {
+		if (label && body.specValue[idx]) {
+			prev.push({ label, value: body.specValue[idx] });
+		}
+		return prev;
+	}, []);
+
+	return {
+		name: body.name,
+		image: body.image,
+		price: parseFloat(body.price, 10).toFixed(2),
+		category: body.category,
+		rating: body.rating,
+		description: body.description,
+		specs,
+	};
+};
 
 export default Product;
