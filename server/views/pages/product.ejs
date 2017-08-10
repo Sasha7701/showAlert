@@ -1,4 +1,8 @@
 <style>
+	.ProductForm-error {
+		text-align: center;
+	}
+
 	.ProductForm-preview {
 		position: relative;
 		width: 100%;
@@ -25,6 +29,12 @@
 </style>
 
 <form class="ProductForm box" method="post">
+	<% if (typeof error !== 'undefined' && error) { %>
+		<div class="ProductForm-error notification is-danger">
+			<%- error %>
+		</div>
+	<% } %>
+
 	<div class="field">
 		<input
 			class="input is-large"
@@ -98,17 +108,24 @@
 		</div>
 
 		<div class="column">
-			<div class="field">
-				<input
-					class="input"
-					value="<%- product.rating %>"
-					name="rating"
-					placeholder="Rating (1-10, optional)"
-					type="number"
-					step="1"
-					min="1"
-					max="10"
-				/>
+			<div class="field has-addons">
+				<div class="control" style="width: 100%;">
+					<input
+						class="input"
+						value="<%- product.rating %>"
+						name="rating"
+						placeholder="Rating"
+						type="number"
+						step="1"
+						min="1"
+						max="10"
+					/>
+				</div>
+				<div class="control">
+					<a class="button is-static">
+						out of 10
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -134,26 +151,31 @@
 			</button>
 		</div>
 		<div id="spec-list">
-			<div class="columns">
-				<div class="column">
-					<div class="field">
-						<input
-							class="input"
-							name="specLabel"
-							placeholder="Label"
-						/>
+			<% const specs = product.specs && product.specs.length ? product.specs : [{}]; %>
+			<% for (let i = 0; i < specs.length; i++) { %>
+				<div class="columns">
+					<div class="column">
+						<div class="field">
+							<input
+								class="input"
+								name="specLabel"
+								placeholder="Label"
+								value="<%- specs[i].label %>"
+							/>
+						</div>
+					</div>
+					<div class="column">
+						<div class="field">
+							<input
+								class="input"
+								name="specValue"
+								placeholder="Value"
+								value="<%- specs[i].value %>"
+							/>
+						</div>
 					</div>
 				</div>
-				<div class="column">
-					<div class="field">
-						<input
-							class="input"
-							name="specValue"
-							placeholder="Value"
-						/>
-					</div>
-				</div>
-			</div>
+			<% } %>
 		</div>
 	</div>
 
@@ -162,7 +184,7 @@
 			Save
 		</button>
 		<% if (product.id) { %>
-			<button class="button is-error is-medium" type="submit" name="delete" value="1">
+			<button class="button is-danger is-medium" type="submit" name="delete" value="1">
 				Delete
 			</button>
 		<% } %>

@@ -63,14 +63,19 @@ Product.parseForm = function(body) {
 		throw new Error(error);
 	}
 
-	// Cleanup
-	const specs = body.specLabel.reduce((prev, label, idx) => {
-		if (label && body.specValue[idx]) {
-			prev.push({ label, value: body.specValue[idx] });
+	// Make sure labels / values is an array
+	const labels = body.specLabel.constructor === Array ? body.specLabel : [body.specLabel];
+	const values = body.specValue.constructor === Array ? body.specValue : [body.specValue];
+
+	// Map to spec objects
+	const specs = labels.reduce((prev, label, idx) => {
+		if (label && values[idx]) {
+			prev.push({ label, value: values[idx] });
 		}
 		return prev;
 	}, []);
 
+	// Return the cleaned up version
 	return {
 		name: body.name,
 		image: body.image,

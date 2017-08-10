@@ -1,4 +1,8 @@
 <style>
+	.notification {
+		text-align: center;
+	}
+
 	.List-header {
 		margin-bottom: 20px;
 	}
@@ -9,13 +13,6 @@
 	}
 	.List-header-add {
 		float: right;
-	}
-
-	.List-products {
-
-	}
-	.List-products-empty {
-		text-align: center;
 	}
 
 	.Product {
@@ -62,6 +59,12 @@
 </style>
 
 <div class="List box">
+	<% if (message) { %>
+		<div class="notification <%- messageType %>">
+			<%- message %>
+		</div>
+	<% } %>
+
 	<div class="List-header is-clearfix">
 		<h1 class="List-header-title">Products</h1>
 		<a href="/admin/add" class="List-header-add button is-success">Add Product</a>
