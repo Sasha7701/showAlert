@@ -1,26 +1,27 @@
 <style>
+	.ProductForm-section {
+		margin-top: 20px;
+		padding-top: 20px;
+		border-top: 1px solid #EEE;
+	}
+
 	.ProductForm-error {
 		text-align: center;
 	}
 
-	.ProductForm-preview {
+	.ProductForm-images-preview {
 		position: relative;
 		width: 100%;
 		padding-top: 100%;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	}
 
-	.ProductForm-preview-image {
+	.ProductForm-images-preview-image {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
-	}
-	.ProductForm-buttons {
-		padding-top: 20px;
-		margin-top: 20px;
-		border-top: 1px solid #EEE;
 	}
 	.ProductForm-buttons .button {
 		max-width: 120px;
@@ -45,35 +46,59 @@
 		/>
 	</div>
 
-	<div class="columns">
-		<div class="column is-one-quarter">
-			<div class="ProductForm-preview">
-				<img
-					id="image-el"
-					class="ProductForm-preview-image"
-					src="<%- product.image %>"
-				/>
+
+	<div id="product-images" class="ProductForm-images ProductForm-section">
+		<div class="field">
+			<div class="label">
+				Images
+				<button
+					id="add-image"
+					class="ProductForm-images-add button is-success is-outlined is-small"
+					type="button"
+				>
+					+ Add Image
+				</button>
+			</div>
+			<div class="help">
+				If you have the image you want to upload, use
+				<a href="https://imgur.com/" target="_blank">imgur</a>
+				for free hosting. Make sure the URL you paste has a file type
+				at the end (.jpg, .png, etc.)
 			</div>
 		</div>
-		<div class="column">
-			<div class="field">
-				<input
-					id="image-input"
-					class="input"
-					value="<%- product.image %>"
-					name="image"
-					placeholder="Image URL"
-				/>
-				<div class="help">
-					If you have the image you want to upload, use
-					<a href="https://imgur.com/" target="_blank">imgur</a>
-					for free hosting. Make sure the URL you paste has a file type
-					at the end (.jpg, .png, etc.)
+		<% const imgs = product.images && product.images.length ? product.images : [""]; %>
+		<% for (let i = 0; i < imgs.length; i++) { %>
+			<div class="columns">
+				<div class="column is-2">
+					<div class="ProductForm-images-preview">
+						<img
+							class="ProductForm-images-preview-image"
+							src="<%- imgs[i].small %>"
+						/>
+					</div>
+				</div>
+				<div class="column">
+					<div class="field">
+						<input
+							class="ProductForm-images-input input"
+							value="<%- imgs[i].original %>"
+							name="image"
+							placeholder="Image URL"
+						/>
+					</div>
+					<div class="help">
+						Image should be at least 640px, max 10mb
+					</div>
 				</div>
 			</div>
-		</div>
+		<% } %>
 	</div>
 
+	<div class="ProductForm-section field">
+		<div class="label">
+			Details
+		</div>
+	</div>
 	<div class="columns">
 		<div class="column">
 			<div class="field has-addons">
@@ -85,7 +110,7 @@
 				<div class="control">
 					<input
 						class="input"
-						value="<%- product.price %>"
+						value="<%- product.get("price") %>"
 						name="price"
 						placeholder="Price"
 						type="number"
@@ -139,7 +164,7 @@
 		><%- product.description %></textarea>
 	</div>
 
-	<div class="field">
+	<div class="ProductForm-section field">
 		<div class="label">
 			Product Specs (Optional)
 			<button
@@ -179,7 +204,7 @@
 		</div>
 	</div>
 
-	<div class="ProductForm-buttons">
+	<div class="ProductForm-buttons ProductForm-section">
 		<button class="button is-success is-medium" type="submit">
 			Save
 		</button>
@@ -192,20 +217,58 @@
 </form>
 
 <script>
-	const imageEl = document.getElementById("image-el");
-	const imageInput = document.getElementById("image-input");
+	const imageList = document.getElementById("product-images");
+	const imageEls = document.getElementsByClassName("ProductForm-images-preview-image");
+	const imageInputs = document.getElementsByClassName("ProductForm-images-input");
+	const addImageBtn = document.getElementById("add-image");
 	const addSpecBtn = document.getElementById("add-spec");
 	const specList = document.getElementById("spec-list");
 
-	imageInput.addEventListener("change", (ev) => {
-		const url = ev.target.value;
-		setTimeout(() => {
-			if (imageInput.value === url) {
-				imageEl.src = url;
-			}
-		}, 300);
+	// Preview images
+	for (let idx = 0; idx < imageInputs.length; idx++) {
+		const imageInput = imageInputs[idx];
+		imageInput.addEventListener("change", (ev) => {
+			const url = ev.target.value;
+			setTimeout(() => {
+				if (imageInput.value === url) {
+					imageEls[idx].src = url;
+				}
+			}, 300);
+		});
+	}
+
+	// Add images
+	addImageBtn.addEventListener("click", () => {
+		const newImage = `
+			<div class="columns">
+				<div class="column is-2">
+					<div class="ProductForm-images-preview">
+						<img
+							class="ProductForm-images-preview-image"
+							src="https://dummyimage.com/100/000/fff&text=S"
+						/>
+					</div>
+				</div>
+				<div class="column">
+					<div class="field">
+						<input
+							class="ProductForm-images-input input"
+							value=""
+							name="image"
+							placeholder="Image URL"
+						/>
+					</div>
+					<div class="help">
+						Image should be at least 640px, max 10mb
+					</div>
+				</div>
+			</div>
+		`;
+
+		imageList.insertAdjacentHTML('beforeend', newImage);
 	});
 
+	// Add specs
 	addSpecBtn.addEventListener("click", () => {
 		const newFields = `
 			<div class="columns">

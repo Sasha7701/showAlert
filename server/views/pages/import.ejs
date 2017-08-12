@@ -1,0 +1,45 @@
+<style>
+	.Import-title {
+		font-size: 26px;
+		margin-bottom: 10px;
+	}
+</style>
+
+<form class="Import box" method="post">
+	<h1 class="Import-title">Import Product JSON</h1>
+
+	<div class="field">
+		<div class="control">
+			<div class="help">
+				Paste in a JSON array of products. This should match the specifications
+				outlined in the <a href="https://gist.github.com/wbobeirne/c47f36e826cfc20e6740a9c9d6aab356">
+				git gist</a> used for the scaffolding project
+			</div>
+			<textarea
+				class="textarea"
+				placeholder='[{ name: "Leather walle..." }]'
+				name="json"
+			><%- json %></textarea>
+			<% if (typeof error !== 'undefined' && error) { %>
+				<div class="help is-danger"><%- error %></div>
+			<% } %>
+		</div>
+	</div>
+
+
+	<div class="field">
+		<div class="control">
+			<label class="checkbox">
+				<input type="checkbox" name="deleteAll" value="1"> Delete all products
+				<span class="help is-warning">
+					This will delete all old products, so that only the JSON is
+					in the database. This cannot be undone.
+				</span>
+			</label>
+		</div>
+	</div>
+
+	<button class="Login-submit button is-info">
+		Submit
+	</button>
+</form>

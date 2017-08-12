@@ -26,6 +26,9 @@ router.get("/", isAdminMW, (req, res) => {
 	} else if (req.query.notFound) {
 		message = "Invalid product ID";
 		messageType = "is-info";
+	} else if (req.query.imported) {
+		message = `Succesfully imported ${req.query.imported} products!`;
+		messageType = "is-success";
 	}
 
 	Product.findAll().then((products) => {
@@ -97,8 +100,63 @@ router.post("/edit/:productId", isAdminMW, (req, res) => {
 
 // ------------------------------------------------------------------
 
+router.get("/import", isAdminMW, (req, res) => {
+	renderTemplate(res, "Admin - Import", "import", {
+		json: "",
+	});
+});
+
+router.post("/import", isAdminMW, (req, res) => {
+	// First make sure the json is all good
+	const products = [];
+
+	try {
+		const productJson = JSON.parse(req.body.json);
+
+		if (productJson.constructor !== Array) {
+			throw new Error("Products must be an array");
+		}
+
+		// Add each one, parseForm throws if there's bad data
+		productJson.forEach((product) => {
+			products.push(Product.parseForm(product));
+		});
+	} catch (err) {
+		renderTemplate(res, "Admin - Import", "import", {
+			json: req.body.json,
+			error: `Invalid JSON: ${err.message}`,
+		});
+	}
+
+	// If all is good, start the party
+	let handleDelete = Promise.resolve();
+
+	if (req.body.deleteAll) {
+		handleDelete = Product.destroy({ where: {}, truncate: true });
+	}
+
+	handleDelete
+		.then(() => {
+			console.log("Bulk create!");
+			return Product.bulkCreate(products, {
+				individualHooks: true,
+			});
+		})
+		.then((dbProducts) => {
+			res.redirect(`/admin?imported=${dbProducts.length}`);
+		})
+		.catch((err) => {
+			renderTemplate(res, "Admin - Import", "import", {
+				json: req.body.json,
+				error: `Database Error: ${err.message}`,
+			});
+		});
+});
+
+// ------------------------------------------------------------------
+
 router.get("/login", (req, res) => {
-	renderTemplate(res, "Admin - Login", "Login", {
+	renderTemplate(res, "Admin - Login", "login", {
 		to: req.query.to,
 	});
 });
@@ -108,7 +166,7 @@ router.post("/login", (req, res) => {
 		req.session.isAdmin = true;
 		res.redirect(req.body.to || "/admin");
 	} else {
-		renderTemplate(res, "Admin - Login", "Login", {
+		renderTemplate(res, "Admin - Login", "login", {
 			error: "Bad password",
 			to: req.body.to,
 		});
