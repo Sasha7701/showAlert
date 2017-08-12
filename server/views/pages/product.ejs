@@ -14,15 +14,11 @@
 		width: 100%;
 		padding-top: 100%;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
 	}
 
-	.ProductForm-images-preview-image {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
 	.ProductForm-buttons .button {
 		max-width: 120px;
 		width: 100%;
@@ -66,23 +62,22 @@
 				at the end (.jpg, .png, etc.)
 			</div>
 		</div>
-		<% const imgs = product.images && product.images.length ? product.images : [""]; %>
+		<% const imgs = product.originalImages && product.originalImages.length ? product.originalImages : [""]; %>
 		<% for (let i = 0; i < imgs.length; i++) { %>
+			<% const bgImg = product.images && product.images[i] ? product.images[i].small : imgs[i]; %>
 			<div class="columns">
 				<div class="column is-2">
-					<div class="ProductForm-images-preview">
-						<img
-							class="ProductForm-images-preview-image"
-							src="<%- imgs[i].small %>"
-						/>
-					</div>
+					<div
+						class="ProductForm-images-preview"
+						style="background-image: url(<%- bgImg %>);"
+					></div>
 				</div>
 				<div class="column">
 					<div class="field">
 						<input
 							class="ProductForm-images-input input"
-							value="<%- imgs[i].original %>"
-							name="image"
+							value="<%- imgs[i] %>"
+							name="originalImages"
 							placeholder="Image URL"
 						/>
 					</div>
@@ -218,43 +213,47 @@
 
 <script>
 	const imageList = document.getElementById("product-images");
-	const imageEls = document.getElementsByClassName("ProductForm-images-preview-image");
-	const imageInputs = document.getElementsByClassName("ProductForm-images-input");
 	const addImageBtn = document.getElementById("add-image");
 	const addSpecBtn = document.getElementById("add-spec");
 	const specList = document.getElementById("spec-list");
 
 	// Preview images
-	for (let idx = 0; idx < imageInputs.length; idx++) {
-		const imageInput = imageInputs[idx];
-		imageInput.addEventListener("change", (ev) => {
-			const url = ev.target.value;
-			setTimeout(() => {
-				if (imageInput.value === url) {
-					imageEls[idx].src = url;
-				}
-			}, 300);
-		});
+	function previewImage(ev) {
+		const url = ev.target.value;
+		setTimeout(() => {
+			if (ev.target.value === url) {
+				const preview = ev.target.parentElement.parentElement.parentElement
+					.getElementsByClassName("ProductForm-images-preview")[0];
+				preview.style = `background-image: url(${url})`;
+			}
+		}, 300);
 	}
+
+	function bindImageInputs() {
+		const imageInputs = document.getElementsByClassName("ProductForm-images-input");
+
+		for (let i = 0; i < imageInputs.length; i++) {
+			const idx = i;
+			const imageInput = imageInputs[idx];
+			imageInput.removeEventListener("input", previewImage);
+			imageInput.addEventListener("input", previewImage);
+		}
+	}
+	bindImageInputs();
 
 	// Add images
 	addImageBtn.addEventListener("click", () => {
 		const newImage = `
 			<div class="columns">
 				<div class="column is-2">
-					<div class="ProductForm-images-preview">
-						<img
-							class="ProductForm-images-preview-image"
-							src="https://dummyimage.com/100/000/fff&text=S"
-						/>
-					</div>
+					<div class="ProductForm-images-preview"></div>
 				</div>
 				<div class="column">
 					<div class="field">
 						<input
 							class="ProductForm-images-input input"
 							value=""
-							name="image"
+							name="originalImages"
 							placeholder="Image URL"
 						/>
 					</div>
@@ -266,6 +265,7 @@
 		`;
 
 		imageList.insertAdjacentHTML('beforeend', newImage);
+		bindImageInputs();
 	});
 
 	// Add specs

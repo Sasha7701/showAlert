@@ -4,6 +4,24 @@ import BodyParser from "body-parser";
 import Product from "../models/product";
 import renderTemplate from "../util/renderTemplate";
 import isAdminMW from "../middleware/isAdmin";
+import reportError from "../util/reportError";
+
+function bodyToProduct(body) {
+	const vs = body.specValue.constructor === Array ? body.specValue : [body.specValue];
+	const ls = body.specLabel.constructor === Array ? body.specLabel : [body.specLabel];
+
+	const product = {
+		...body,
+		specs: vs.map((value, idx) => {
+			return { value, label: ls[idx] };
+		}),
+	};
+
+	return {
+		...product,
+		get: (key) => product[key],
+	};
+}
 
 const router = express.Router();
 router.use(BodyParser.urlencoded({ extended: true }));
@@ -44,7 +62,7 @@ router.get("/", isAdminMW, (req, res) => {
 
 router.get("/add", isAdminMW, (req, res) => {
 	renderTemplate(res, "Admin - Add Product", "product", {
-		product: {},
+		product: { get: () => undefined },
 	});
 });
 
@@ -54,8 +72,9 @@ router.post("/add", isAdminMW, (req, res) => {
 			res.redirect("/admin?created=1");
 		});
 	} catch (err) {
+		reportError(err, req);
 		renderTemplate(res, "Admin - Add Product", "product", {
-			product: req.body,
+			product: bodyToProduct(req.body),
 			error: err.message,
 		});
 	}
@@ -90,8 +109,9 @@ router.post("/edit/:productId", isAdminMW, (req, res) => {
 				});
 			}
 		} catch (err) {
+			reportError(err, req);
 			renderTemplate(res, "Admin - Add Product", "product", {
-				product: req.body,
+				product: bodyToProduct(req.body),
 				error: err.message,
 			});
 		}
@@ -122,6 +142,7 @@ router.post("/import", isAdminMW, (req, res) => {
 			products.push(Product.parseForm(product));
 		});
 	} catch (err) {
+		reportError(err, req);
 		renderTemplate(res, "Admin - Import", "import", {
 			json: req.body.json,
 			error: `Invalid JSON: ${err.message}`,
@@ -137,7 +158,6 @@ router.post("/import", isAdminMW, (req, res) => {
 
 	handleDelete
 		.then(() => {
-			console.log("Bulk create!");
 			return Product.bulkCreate(products, {
 				individualHooks: true,
 			});
@@ -146,6 +166,7 @@ router.post("/import", isAdminMW, (req, res) => {
 			res.redirect(`/admin?imported=${dbProducts.length}`);
 		})
 		.catch((err) => {
+			reportError(err, req);
 			renderTemplate(res, "Admin - Import", "import", {
 				json: req.body.json,
 				error: `Database Error: ${err.message}`,

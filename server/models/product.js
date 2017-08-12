@@ -2,22 +2,35 @@ import Sequelize from "sequelize";
 import sequelize from "../util/sequelize";
 import uploadToImgur from "../util/uploadToImgur";
 
+const DEFAULT_IMAGES = {
+	small: "https://dummyimage.com/100/000/fff&text=S",
+	medium: "https://dummyimage.com/520/000/fff&text=M",
+	large: "https://dummyimage.com/900/000/fff&text=L",
+	original: "https://dummyimage.com/1024/000/fff&text=OG",
+};
+
 function handleUpload(product) {
-	if (!product.images) {
+	if (!product.originalImages) {
 		return;
 	}
 
+	const allOldImages = product.images || [];
+
 	const promises = [];
 
-	product.images.forEach((image, idx) => {
-		if (typeof image === "string") {
+	product.originalImages.forEach((image, idx) => {
+		const oldImages = allOldImages[idx] || {};
+		if (image && image !== oldImages.original) {
 			promises.push(uploadToImgur(image).then((images) => {
+				product.images = [...product.images];
 				product.images[idx] = images;
 			}));
 		}
 	});
 
-	return Promise.all(promises);
+	return Promise.all(promises).then(() => {
+		return product;
+	});
 }
 
 const Product = sequelize.define("product", {
@@ -30,16 +43,17 @@ const Product = sequelize.define("product", {
 		type: Sequelize.STRING(128),
 		notNull: true,
 	},
+	originalImages: {
+		type: Sequelize.JSON,
+		notNull: true,
+		get() {
+			return this.getDataValue("originalImages") || [];
+		},
+	},
 	images: {
 		type: Sequelize.JSON,
 		get() {
-			return this.getDataValue("images") || [{
-				square: "https://dummyimage.com/100/000/fff&text=S",
-				small: "https://dummyimage.com/100/000/fff&text=S",
-				medium: "https://dummyimage.com/520/000/fff&text=M",
-				large: "https://dummyimage.com/900/000/fff&text=L",
-				origina: "https://dummyimage.com/1024/000/fff&text=OG",
-			}];
+			return this.getDataValue("images") || [DEFAULT_IMAGES];
 		},
 	},
 	price: {
@@ -111,15 +125,20 @@ Product.parseForm = function(body) {
 		}, []);
 	}
 
+	// Make sure images is an array
+	if (typeof body.originalImages === "string") {
+		body.originalImages = [body.originalImages];
+	}
+
 	// Return the cleaned up version
 	return {
 		name: body.name,
-		images: body.images.filter((img) => !!img.length),
+		originalImages: body.originalImages.filter((img) => !!img.length),
 		price: parseFloat(body.price, 10).toFixed(2),
 		category: body.category,
 		rating: body.rating,
 		description: body.description,
-		specs,
+		specs: specs || body.specs,
 	};
 };
 
