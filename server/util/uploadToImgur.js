@@ -5,7 +5,9 @@ import jimp from "jimp";
 
 function handleJimpError(err) {
 	if (err) {
-		console.error("JIMP Error:", err);
+		if (process.env.DEBUG) {
+			console.error("JIMP Error:", err);
+		}
 		throw err;
 	}
 }
@@ -73,7 +75,9 @@ function uploadImageBuffer(image) {
 		return res.json();
 	}).then((res) => {
 		if (res.data.error) {
-			console.error(`Imgur Error:`, res.data.error);
+			if (process.env.DEBUG) {
+				console.error(`Imgur Error:`, res.data.error);
+			}
 			throw new Error(`Imgur Error: ${res.data.error.message}`);
 		}
 		return res;
