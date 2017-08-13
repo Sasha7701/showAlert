@@ -148,4 +148,15 @@ Product.parseForm = function(body) {
 	};
 };
 
+Product.prototype.getReducedJSON = function() {
+	return {
+		id: this.get("id"),
+		name: this.get("name"),
+		category: this.get("category"),
+		price: this.get("price"),
+		rating: this.get("rating"),
+		image: this.get("images")[0],
+	};
+};
+
 export default Product;

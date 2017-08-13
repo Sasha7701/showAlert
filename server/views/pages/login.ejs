@@ -28,6 +28,7 @@
 	<input type="hidden" name="to" value="<%= to %>"/>
 	<div class="control">
 		<input
+			id="password-input"
 			class="Login-password input"
 			placeholder="password"
 			type="password"
@@ -41,3 +42,7 @@
 		Submit
 	</button>
 </form>
+
+<script>
+	document.getElementById("password-input").focus();
+</script>

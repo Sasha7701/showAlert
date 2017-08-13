@@ -2,6 +2,7 @@ import express from "express";
 import BodyParser from "body-parser";
 
 import Product from "../models/product";
+import Order, { FIELD_NAMES } from "../models/order";
 import apiRes from "../util/apiRes";
 import apiErr from "../util/apiErr";
 
@@ -16,21 +17,15 @@ router.get("/products", (req, res) => {
 	}).then((products) => {
 		apiRes(req, res, {
 			products: products.map((p) => {
-				return {
-					id: p.get("id"),
-					name: p.get("name"),
-					category: p.get("category"),
-					price: "$" + p.get("price"),
-					rating: p.get("rating"),
-					image: p.get("images")[0],
-				};
+				return p.getReducedJSON();
 			}),
 		});
 	}).catch((err) => {
 		apiErr(req, res, {
 			code: 500,
 			type: "DB_ERROR",
-			message: "Failed to retrieve products!",
+			message: "Failed to retrieve products",
+			error: err,
 		});
 	});
 });
@@ -38,12 +33,21 @@ router.get("/products", (req, res) => {
 // ----------------------------------------------------------------------------
 
 router.get("/products/:productId", (req, res) => {
+	// Bad ID
+	if (!parseInt(req.params.productId, 10)) {
+		return apiErr(req, res, {
+			code: 400,
+			type: "BAD_PARAM",
+			message: "Invalid product ID",
+		});
+	}
+
 	Product.findById(req.params.productId).then((product) => {
 		if (!product) {
 			return apiErr(req, res, {
 				code: 400,
 				type: "BAD_PARAM",
-				message: "No product found!",
+				message: "Unable to find that product",
 			});
 		}
 
@@ -52,7 +56,7 @@ router.get("/products/:productId", (req, res) => {
 				id: product.get("id"),
 				name: product.get("name"),
 				category: product.get("category"),
-				price: "$" + product.get("price"),
+				price: product.get("price"),
 				rating: product.get("rating"),
 				images: product.get("images"),
 				description: product.get("description"),
@@ -63,7 +67,8 @@ router.get("/products/:productId", (req, res) => {
 		apiErr(req, res, {
 			code: 500,
 			type: "DB_ERROR",
-			message: "Failed to retrieve product!",
+			message: "Failed to retrieve product",
+			error: err,
 		});
 	});
 });
@@ -71,20 +76,89 @@ router.get("/products/:productId", (req, res) => {
 // ----------------------------------------------------------------------------
 
 router.post("/orders", (req, res) => {
-	apiErr(req, res, {
-		code: 500,
-		type: "NOT_IMPLEMENTED",
-		message: "Implement me!",
+	const errors = Order.getSubmitErrors(req.body);
+
+	if (errors) {
+		const fieldNames = Object.keys(errors).map((field) => FIELD_NAMES[field]);
+
+		return apiErr(req, res, {
+			code: 400,
+			type: "BAD_PARAM",
+			message: `Something was wrong with ${fieldNames.join(", ")}`,
+			data: errors,
+		});
+	}
+
+	// First create the order
+	Order.create({
+		name: req.body.name,
+		address: req.body.address,
+		address2: req.body.address2,
+		city: req.body.city,
+		state: req.body.state,
+	}).then((order) => {
+		// Then associate the products!
+		order.setProducts(req.body.products).then(() => {
+			apiRes(req, res, {
+				orderId: order.id,
+			});
+		}).catch((err) => {
+			apiErr(req, res, {
+				code: 400,
+				type: "BAD_PARAM",
+				message: "Invalid product ID(s)",
+				error: err,
+			});
+		});
+	}).catch((err) => {
+		apiErr(req, res, {
+			code: 500,
+			type: "DB_ERROR",
+			message: "Unable to submit order",
+			error: err,
+		});
 	});
 });
 
 // ----------------------------------------------------------------------------
 
 router.get("/orders/:orderId", (req, res) => {
-	apiErr(req, res, {
-		code: 500,
-		type: "NOT_IMPLEMENTED",
-		message: "Implement me!",
+	// Bad ID
+	if (!parseInt(req.params.orderId, 10)) {
+		return apiErr(req, res, {
+			code: 400,
+			type: "BAD_PARAM",
+			message: "Invalid order ID",
+		});
+	}
+
+	Order.findById(req.params.orderId, {
+		include: [Product],
+	}).then((order) => {
+		if (!order) {
+			return apiErr(req, res, {
+				code: 400,
+				type: "BAD_PARAM",
+				message: "Unable to find that order",
+			});
+		}
+
+		return apiRes(req, res, {
+			name: order.get("name"),
+			address: order.get("address"),
+			address2: order.get("address2"),
+			city: order.get("city"),
+			state: order.get("state"),
+			products: order.products.map((product) => product.getReducedJSON()),
+			time: order.get("createdAt"),
+		});
+	}).catch((err) => {
+		apiErr(req, res, {
+			code: 500,
+			type: "DB_ERROR",
+			message: "Unable to retrieve order",
+			error: err,
+		});
 	});
 });
 
