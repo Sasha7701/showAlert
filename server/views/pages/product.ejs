@@ -124,6 +124,11 @@
 					placeholder="Category"
 					list="categories"
 				/>
+				<datalist id="categories">
+					<% for (let i = 0; i < categories.length; i++) { %>
+						<option value="<%- categories[i] %>"/>
+					<% } %>
+				</datalist>
 			</div>
 		</div>
 

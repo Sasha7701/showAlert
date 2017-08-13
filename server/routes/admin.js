@@ -24,6 +24,15 @@ function bodyToProduct(body) {
 	};
 }
 
+function renderProductForm(res, args = {}) {
+	Product.getCategories().then((categories) => {
+		renderTemplate(res, "Admin - Add Product", "product", {
+			...args,
+			categories,
+		});
+	});
+}
+
 const router = express.Router();
 router.use(BodyParser.urlencoded({ extended: true }));
 
@@ -86,7 +95,7 @@ router.get("/orders", isAdminMW, (req, res) => {
 // ------------------------------------------------------------------
 
 router.get("/add", isAdminMW, (req, res) => {
-	renderTemplate(res, "Admin - Add Product", "product", {
+	renderProductForm(res, {
 		product: { get: () => undefined },
 	});
 });
@@ -98,7 +107,7 @@ router.post("/add", isAdminMW, (req, res) => {
 		});
 	} catch (err) {
 		reportError(err, req);
-		renderTemplate(res, "Admin - Add Product", "product", {
+		renderProductForm(res, {
 			product: bodyToProduct(req.body),
 			error: err.message,
 		});
@@ -113,7 +122,9 @@ router.get("/edit/:productId", isAdminMW, (req, res) => {
 			return res.redirect("/admin?notFound=1");
 		}
 
-		renderTemplate(res, "Admin - Edit Product", "product", { product });
+		renderProductForm(res,  {
+			product,
+		});
 	});
 });
 
@@ -135,7 +146,7 @@ router.post("/edit/:productId", isAdminMW, (req, res) => {
 			}
 		} catch (err) {
 			reportError(err, req);
-			renderTemplate(res, "Admin - Add Product", "product", {
+			renderProductForm(res, {
 				product: bodyToProduct(req.body),
 				error: err.message,
 			});

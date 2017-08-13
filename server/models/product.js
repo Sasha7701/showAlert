@@ -157,6 +157,14 @@ Product.parseForm = function(body) {
 	};
 };
 
+Product.getCategories = function() {
+	return sequelize.query("SELECT DISTINCT category FROM products", {
+		type: sequelize.QueryTypes.SELECT,
+	}).then((rows) => {
+		return rows.map((row) => row.category).filter((row) => !!row);
+	});
+};
+
 Product.prototype.getReducedJSON = function() {
 	return {
 		id: this.get("id"),
