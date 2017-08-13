@@ -1,12 +1,13 @@
 import Sequelize from "sequelize";
+import chalk from "chalk";
 import sequelize from "../util/sequelize";
 import uploadToImgur from "../util/uploadToImgur";
 
 const DEFAULT_IMAGES = {
-	small: "https://dummyimage.com/100/000/fff&text=S",
-	medium: "https://dummyimage.com/520/000/fff&text=M",
-	large: "https://dummyimage.com/900/000/fff&text=L",
-	original: "https://dummyimage.com/1024/000/fff&text=OG",
+	small: "https://dummyimage.com/100/000/fff&text=Small",
+	medium: "https://dummyimage.com/520/000/fff&text=Medium",
+	large: "https://dummyimage.com/900/000/fff&text=Large",
+	original: "https://dummyimage.com/1024/000/fff&text=Original",
 };
 
 function handleUpload(product) {
@@ -30,6 +31,11 @@ function handleUpload(product) {
 
 	return Promise.all(promises).then(() => {
 		return product;
+	}).catch((err) => {
+		console.warn(chalk.yellow.bold(
+			"Encountered error while uploading product image. Saving without images."
+		));
+		console.warn(chalk.yellow(err.message));
 	});
 }
 

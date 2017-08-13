@@ -20,7 +20,7 @@ router.get("/products", (req, res) => {
 					id: p.get("id"),
 					name: p.get("name"),
 					category: p.get("category"),
-					price: p.get("price"),
+					price: "$" + p.get("price"),
 					rating: p.get("rating"),
 					image: p.get("images")[0],
 				};
@@ -52,7 +52,7 @@ router.get("/products/:productId", (req, res) => {
 				id: product.get("id"),
 				name: product.get("name"),
 				category: product.get("category"),
-				price: product.get("price"),
+				price: "$" + product.get("price"),
 				rating: product.get("rating"),
 				images: product.get("images"),
 				description: product.get("description"),

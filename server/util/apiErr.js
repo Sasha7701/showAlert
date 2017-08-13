@@ -1,3 +1,5 @@
+import chalk from "chalk";
+
 export default function(req, res, err) {
 	if (req.errored) {
 		return;
@@ -11,27 +13,27 @@ export default function(req, res, err) {
 	};
 
 	if (!error.code) {
-		console.error(`API Error at path ${req.path} without error code, defaulting to 500`);
+		console.warn(`API Error at path ${req.path} without error code, defaulting to 500`);
 		error.code = 500;
 	}
 
 	if (!error.type) {
-		console.error(
+		console.warn(
 			`API Error at ${req.method} ${req.path} without error type, using 'MiscError'`
 		);
 		error.type = "MiscError";
 	}
 
 	if (!error.message) {
-		console.error(
+		console.warn(
 			`API Error at ${req.method} ${req.path} without error message, using default message`
 		);
 		error.message = "Something went wrong!";
 	}
 
-	if (process.env.DEBUG && err.error) {
-		console.error(`Encountered an error at ${req.method.toUpperCase()} ${req.path}`);
+	if (err.error) {
 		console.error(err.error);
+		console.error(chalk.red.bold(`Encountered an error at ${req.method.toUpperCase()} ${req.path}`));
 	}
 
 	res.status(err.code).json({

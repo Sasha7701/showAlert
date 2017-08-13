@@ -2,18 +2,23 @@
 import fetch from "node-fetch";
 import FormData from "form-data";
 import jimp from "jimp";
+import chalk from "chalk";
 
 function handleJimpError(err) {
 	if (err) {
-		if (process.env.DEBUG) {
-			console.error("JIMP Error:", err);
-		}
+		console.error(chalk.red.bold("JIMP Error:"), err);
 		throw err;
 	}
 }
 
+function logUploadProgress(msg) {
+	if (process.env.DEBUG) {
+		console.info(chalk.blue(msg));
+	}
+}
+
 function runImageOps(image) {
-	console.info("Begin fetching image...");
+	logUploadProgress("Begin fetching image...");
 	return new Promise((resolve, reject) => {
 		// If you're reading this, this code is awful. Please do not repeat this,
 		// it was done under duress
@@ -24,7 +29,7 @@ function runImageOps(image) {
 					return reject(err);
 				}
 
-				console.info("Fetched image from URL...");
+				logUploadProgress("Fetched image from URL...");
 				const mime = img.getMIME();
 				const images = {};
 
@@ -33,21 +38,21 @@ function runImageOps(image) {
 				img.getBuffer(mime, (err, large) => {
 					handleJimpError(err);
 					images.large = large;
-					console.info("Resized large...");
+					logUploadProgress("Resized large...");
 
 					// Medium
 					img.scaleToFit(400, 400);
 					img.getBuffer(mime, (err, medium) => {
 						handleJimpError(err);
 						images.medium = medium;
-						console.info("Resized medium...");
+						logUploadProgress("Resized medium...");
 
 						// Small
 						img.scaleToFit(160, 160);
 						img.getBuffer(mime, (err, small) => {
 							handleJimpError(err);
 							images.small = small;
-							console.info("Resized small...");
+							logUploadProgress("Resized small...");
 							resolve(images);
 						});
 					});
@@ -76,7 +81,7 @@ function uploadImageBuffer(image) {
 	}).then((res) => {
 		if (res.data.error) {
 			if (process.env.DEBUG) {
-				console.error(`Imgur Error:`, res.data.error);
+				console.error(chalk.red.bold("Imgur Error:"), res.data.error);
 			}
 			throw new Error(`Imgur Error: ${res.data.error.message}`);
 		}
@@ -90,7 +95,7 @@ export default function uploadToImgur(imageUrl) {
 		return Promise.all(
 			Object.keys(images).map((size) => {
 				return uploadImageBuffer(images[size]).then((res) => {
-					console.info(`Uploaded ${size}...`);
+					logUploadProgress(`Uploaded ${size}...`);
 					return {
 						size,
 						url: res.data.link,

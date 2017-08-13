@@ -158,9 +158,18 @@ router.post("/import", isAdminMW, (req, res) => {
 
 	handleDelete
 		.then(() => {
-			return Product.bulkCreate(products, {
-				individualHooks: true,
-			});
+			try {
+				return Product.bulkCreate(products, {
+					individualHooks: true,
+				});
+			}
+			catch (err) {
+				reportError(err, req);
+				renderTemplate(res, "Admin - Import", "import", {
+					json: req.body.json,
+					error: `Database Error: ${err.message}`,
+				});
+			}
 		})
 		.then((dbProducts) => {
 			res.redirect(`/admin?imported=${dbProducts.length}`);

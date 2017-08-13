@@ -64,7 +64,7 @@
 		</div>
 		<% const imgs = product.originalImages && product.originalImages.length ? product.originalImages : [""]; %>
 		<% for (let i = 0; i < imgs.length; i++) { %>
-			<% const bgImg = product.images && product.images[i] ? product.images[i].small : imgs[i]; %>
+			<% const bgImg = product.images && product.images[i] ? product.images[i].small : "https://dummyimage.com/100/000/fff&text=Small"; %>
 			<div class="columns">
 				<div class="column is-2">
 					<div

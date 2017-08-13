@@ -1,6 +1,7 @@
+import chalk from "chalk";
+
 export default function reportError(err, req) {
-	if (process.env.DEBUG) {
-		const prefix = req ? `Error at ${req.originalUrl}:` : `Error during request:`;
-		console.error(prefix, err);
-	}
+	const prefix = req ? `Error at ${req.originalUrl}:` : `Error during request:`;
+	console.error(err);
+	console.error(chalk.red(`${prefix}, see above for more info`));
 }

@@ -13,11 +13,19 @@
 			<div class="help">
 				Paste in a JSON array of products. This should match the specifications
 				outlined in the <a href="https://gist.github.com/wbobeirne/c47f36e826cfc20e6740a9c9d6aab356">
-				git gist</a> used for the scaffolding project
+				git gist</a> used for the scaffolding project. Imgur has a very low
+				upload limit, so you may end up with some products missing images after
+				the import. Don't worry, just wait an hour, go to each product, and
+				re-save it again to fix it.
+			</div>
+			<div class="help is-info">
+				Imports take a decent amount of time (10-30s), so please be patient.
+				<br/>
+				<br/>
 			</div>
 			<textarea
 				class="textarea"
-				placeholder='[{ name: "Leather walle..." }]'
+				placeholder='Insert JSON here'
 				name="json"
 			><%- json %></textarea>
 			<% if (typeof error !== 'undefined' && error) { %>
@@ -30,8 +38,9 @@
 	<div class="field">
 		<div class="control">
 			<label class="checkbox">
-				<input type="checkbox" name="deleteAll" value="1"> Delete all products
-				<span class="help is-warning">
+				<input type="checkbox" name="deleteAll" value="1">
+				<span>Delete all products</span>
+				<span class="help is-danger">
 					This will delete all old products, so that only the JSON is
 					in the database. This cannot be undone.
 				</span>
