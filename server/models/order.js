@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import sequelize from "../util/sequelize";
 import Product from "./product";
+import OrderProducts from "./orderProducts";
 
 export const FIELD_NAMES = {
 	name: "Name",
@@ -47,9 +48,10 @@ const Order = sequelize.define("order", {
 });
 
 // Associations
-Product.belongsToMany(Order, { through: "order_products" });
-Order.belongsToMany(Product, { through: "order_products" });
+Product.belongsToMany(Order, { through: OrderProducts });
+Order.belongsToMany(Product, { through: OrderProducts });
 
+// Model extensions
 Order.getSubmitErrors = function(order) {
 	const required = ["products", "name", "address", "city", "state", "zipcode"];
 	const len256 = ["name", "address", "address2", "city"];
