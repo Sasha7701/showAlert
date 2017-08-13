@@ -2,6 +2,7 @@ import express from "express";
 import BodyParser from "body-parser";
 
 import Product from "../models/product";
+import Order from "../models/order";
 import renderTemplate from "../util/renderTemplate";
 import isAdminMW from "../middleware/isAdmin";
 import reportError from "../util/reportError";
@@ -50,16 +51,33 @@ router.get("/", isAdminMW, (req, res) => {
 	}
 
 	Product.findAll({ order: [['updatedAt', 'DESC']] }).then((products) => {
-		renderTemplate(res, "Admin - Products", "list", {
+		renderTemplate(res, "Admin - Products", "products", {
 			products,
 			message,
 			messageType,
 		});
 	}).catch((err) => {
 		reportError(err);
-		renderTemplate(res, "Admin - Products", "list", {
+		renderTemplate(res, "Admin - Products", "products", {
 			products: [],
 			message: "Database error, no products will show",
+			messageType: "is-danger",
+		});
+	});
+});
+
+// ------------------------------------------------------------------
+
+router.get("/orders", isAdminMW, (req, res) => {
+	Order.findAll({ include: [Product] }).then((orders) => {
+		renderTemplate(res, "Admin - Orders", "orders", {
+			orders,
+		});
+	}).catch((err) => {
+		reportError(err);
+		renderTemplate(res, "Admin - Orders", "orders", {
+			products: [],
+			message: "Database error, no orders will show",
 			messageType: "is-danger",
 		});
 	});

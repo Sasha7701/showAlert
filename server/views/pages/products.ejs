@@ -3,14 +3,6 @@
 		text-align: center;
 	}
 
-	.List-header {
-		margin-bottom: 20px;
-	}
-	.List-header-title {
-		float: left;
-		font-size: 28px;
-		line-height: 36px;
-	}
 	.List-header .button {
 		float: right;
 		margin-left: 6px;
@@ -70,7 +62,10 @@
 	<% } %>
 
 	<div class="List-header is-clearfix">
-		<h1 class="List-header-title">Products</h1>
+		<h1 class="TabHeader">
+			<a href="/admin" class="TabHeader-link is-active">Products</a>
+			<a href="/admin/orders" class="TabHeader-link">Orders</a>
+		</h1>
 		<a href="/admin/import" class="List-header-import button is-success is-outlined">Import JSON</a>
 		<a href="/admin/add" class="List-header-add button is-success">Add Product</a>
 	</div>
