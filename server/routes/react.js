@@ -34,19 +34,18 @@ export default function(app) {
 		};
 	}
 	else {
-		try {
-			const html = fs.readFileSync(htmlFilePath);
-			htmlHandler = (req, res) => {
+		htmlHandler = (req, res) => {
+			try {
+				const html = fs.readFileSync(htmlFilePath);
 				res.end(html);
-			};
-		}
-		catch (err) {
-			console.error(err);
-			console.error(chalk.red.bold(
-				"Could not find dist/index.html. Are you sure you ran `npm run build` succesfully?"
-			));
-			process.exit(1);
-		}
+			} catch (err) {
+				console.error(err);
+				console.error(chalk.red.bold(
+					"Could not find dist/index.html. Are you sure `npm run build` ran succesfully?"
+				));
+				res.end("Site is building...");
+			}
+		};
 	}
 
 	app.get("*", htmlHandler);
