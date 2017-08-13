@@ -56,6 +56,7 @@ router.get("/", isAdminMW, (req, res) => {
 			messageType,
 		});
 	}).catch((err) => {
+		reportError(err);
 		renderTemplate(res, "Admin - Products", "list", {
 			products: [],
 			message: "Database error, no products will show",
