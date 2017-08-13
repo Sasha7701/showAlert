@@ -59,12 +59,18 @@ router.get("/products/:productId", (req, res) => {
 				specs: product.get("specs"),
 			},
 		});
+	}).catch((err) => {
+		apiErr(req, res, {
+			code: 500,
+			type: "DB_ERROR",
+			message: "Failed to retrieve product!",
+		});
 	});
 });
 
 // ----------------------------------------------------------------------------
 
-router.post("/order", (req, res) => {
+router.post("/orders", (req, res) => {
 	apiErr(req, res, {
 		code: 500,
 		type: "NOT_IMPLEMENTED",
@@ -74,7 +80,7 @@ router.post("/order", (req, res) => {
 
 // ----------------------------------------------------------------------------
 
-router.get("/order/:orderId", (req, res) => {
+router.get("/orders/:orderId", (req, res) => {
 	apiErr(req, res, {
 		code: 500,
 		type: "NOT_IMPLEMENTED",
