@@ -7,6 +7,8 @@
 		"start": "cross-env NODE_ENV=development babel-node ./server/index.js",
 		"build": "cross-env NODE_ENV=production webpack --progress --config=webpack.config.js",
 		"server": "cross-env SERVER_ONLY=1 DEBUG=1 nodemon ./server/index.js --exec babel-node",
+		"heroku": "cross-env NODE_ENV=production babel-node server/index.js",
+		"heoku-postbuild": "npm run build",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",

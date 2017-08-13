@@ -43,7 +43,7 @@ export default function(app) {
 		catch (err) {
 			console.error(err);
 			console.error(chalk.red.bold(
-				"Could not find dist/index.html. Are you sure you ran `npm run build`?"
+				"Could not find dist/index.html. Are you sure you ran `npm run build` succesfully?"
 			));
 			process.exit(1);
 		}
