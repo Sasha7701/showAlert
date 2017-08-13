@@ -92,7 +92,7 @@ const Product = sequelize.define("product", {
 		type: Sequelize.TEXT,
 	},
 	category: {
-		type: Sequelize.TEXT,
+		type: Sequelize.STRING(128),
 	},
 	specs: {
 		type: Sequelize.JSON,
@@ -114,12 +114,22 @@ Product.parseForm = function(body) {
 	if (!body.name) {
 		error = "Name is required";
 	}
-	if (!body.description) {
+	else if (!body.originalImages) {
+		error = "At least one image is required";
+	}
+	else if (!body.description) {
 		error = "Description is required";
 	}
-	if (!body.price) {
+	else if (!body.price) {
 		error = "Price is required";
 	}
+	else if (parseFloat(body.price) < 0.01) {
+		error = "Price must be at least 1c";
+	}
+	else if (body.rating && parseInt(body.rating, 10) < 1 || parseInt(body.rating, 10) > 10) {
+		error = "Rating must be between 1 and 10";
+	}
+
 	if (error) {
 		throw new Error(error);
 	}
