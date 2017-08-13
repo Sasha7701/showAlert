@@ -9,6 +9,7 @@ export const FIELD_NAMES = {
 	city: "City",
 	state: "State",
 	orders: "Products",
+	zipcode: "Zipcode",
 };
 
 const Order = sequelize.define("order", {
@@ -35,6 +36,13 @@ const Order = sequelize.define("order", {
 	state: {
 		type: Sequelize.STRING(2),
 		notNull: true,
+		get() {
+			return this.getDataValue("state").toUpperCase();
+		},
+	},
+	zipcode: {
+		type: Sequelize.STRING(5),
+		notNull: true,
 	},
 });
 
@@ -43,13 +51,21 @@ Product.belongsToMany(Order, { through: "order_products" });
 Order.belongsToMany(Product, { through: "order_products" });
 
 Order.getSubmitErrors = function(order) {
-	const required = ["products", "name", "address", "city", "state"];
+	const required = ["products", "name", "address", "city", "state", "zipcode"];
 	const len256 = ["name", "address", "address2", "city"];
 	const errors = {};
 
 	// In ascending order of importance...
 	if (order.state && order.state.length > 2) {
 		errors.state = "State cannot be longer than 2 characters";
+	}
+
+	if (order.zipcode && order.zipcode.match(/^[0-9]+$/) === null) {
+		errors.zipcode = "Zipcode can only contain numbers";
+	}
+
+	if (order.zipcode && order.zipcode.length !== 5) {
+		errors.zipcode = "Zipcode must be 5 numbers long";
 	}
 
 	len256.forEach((field) => {

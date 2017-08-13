@@ -10,6 +10,15 @@ const DEFAULT_IMAGES = {
 	original: "https://dummyimage.com/1024/000/fff&text=Original",
 };
 
+export const SORTS = {
+	pricehigh: [["price", "DESC"]],
+	pricelow: [["price", "ASC"]],
+	atoz: [["name", "ASC"]],
+	ztoa: [["name", "DESC"]],
+	ratinghigh: [["rating", "DESC"]],
+	ratinglow: [["rating", "ASC"]],
+};
+
 function handleUpload(product) {
 	if (!product.originalImages) {
 		return;

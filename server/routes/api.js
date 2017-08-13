@@ -1,7 +1,7 @@
 import express from "express";
 import BodyParser from "body-parser";
 
-import Product from "../models/product";
+import Product, { SORTS } from "../models/product";
 import Order, { FIELD_NAMES } from "../models/order";
 import apiRes from "../util/apiRes";
 import apiErr from "../util/apiErr";
@@ -12,8 +12,27 @@ router.use(BodyParser.json());
 // ----------------------------------------------------------------------------
 
 router.get("/products", (req, res) => {
+	const order = SORTS[req.query.sort.toLowerCase()] || [["updatedAt", "DESC"]];
+	const where = {};
+
+	// Search name & description
+	if (req.query.search) {
+		where.$or = [{
+			name: { $ilike: `%${req.query.search}%` },
+		}, {
+			description: { $ilike: `%${req.query.search}%` },
+		}];
+	}
+
+	// Limit to category
+	if (req.query.category) {
+		where.category = req.query.category;
+	}
+
 	Product.findAll({
 		attributes: ["id", "name", "price", "rating", "images"],
+		order,
+		where,
 	}).then((products) => {
 		apiRes(req, res, {
 			products: products.map((p) => {
@@ -95,7 +114,8 @@ router.post("/orders", (req, res) => {
 		address: req.body.address,
 		address2: req.body.address2,
 		city: req.body.city,
-		state: req.body.state,
+		state: req.body.state.toUpperCase(),
+		zipcode: req.body.zipcode,
 	}).then((order) => {
 		// Then associate the products!
 		order.setProducts(req.body.products).then(() => {
