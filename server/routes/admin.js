@@ -49,11 +49,17 @@ router.get("/", isAdminMW, (req, res) => {
 		messageType = "is-success";
 	}
 
-	Product.findAll().then((products) => {
+	Product.findAll({ order: [['updatedAt', 'DESC']] }).then((products) => {
 		renderTemplate(res, "Admin - Products", "list", {
 			products,
 			message,
 			messageType,
+		});
+	}).catch((err) => {
+		renderTemplate(res, "Admin - Products", "list", {
+			products: [],
+			message: "Database error, no products will show",
+			messageType: "is-danger",
 		});
 	});
 });
