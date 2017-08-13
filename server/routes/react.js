@@ -46,6 +46,8 @@ export default function(app) {
 				res.end("Site is building...");
 			}
 		};
+
+		app.use(express.static(path.resolve(htmlFilePath, "..")));
 	}
 
 	app.get("*", htmlHandler);
