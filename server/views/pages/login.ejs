@@ -1,48 +1,29 @@
-<style>
-	.Login {
-		max-width: 340px;
-		margin: 0 auto;
-		padding: 20px;
-		text-align: center;
-	}
-	.Login-title {
-		font-size: 26px;
-		margin-bottom: 10px;
-	}
-	.Login-password {
-		display: block;
-		width: 100%;
-		max-width: 300px;
-		margin: 0 auto 10px;
-	}
-	.Login-submit {
-		display: block;
-		width: 100%;
-		max-width: 300px;
-		margin: 0 auto;
-	}
-</style>
+<div class = "cover">
+<div class="background-pic">
 
-<form class="Login box" method="post">
-	<h1 class="Login-title">Login</h1>
-	<input type="hidden" name="to" value="<%= to %>"/>
-	<div class="control">
-		<input
-			id="password-input"
-			class="Login-password input"
-			placeholder="password"
-			type="password"
-			name="password"
-		/>
-		<% if (typeof error !== 'undefined' && error) { %>
-			<div class="help is-danger"><%- error %></div>
-		<% } %>
+</div>
+
+
+		<!--Log in  -->
+
+ 		<div class= "container">
+			<p class="login-container-p">Sing Up To See Photos And Videos From Your Friends</p>
+			<h1 class="login-container-h">Log In</h1>
+			<div class= "singin">
+
+				<form class="login-input" method="post" action="/">
+					<% if (typeof error !== "undefined") { %>
+		<div class="error"><%= error %></div>
+	<% } %>
+					<input type="text" name="username" placeholder="username"/><br/>
+					<input type="password" name="password" placeholder="password"/><br/>
+					<button class="login-btns">Submit</button>
+				</form>
+			</div>
+			<a class="signup-btn" href="/signup"><button class="login-btns">Sign Up</button></a>
+		</div>
+
 	</div>
-	<button class="Login-submit button is-info">
-		Submit
-	</button>
-</form>
-
-<script>
-	document.getElementById("password-input").focus();
-</script>
+	<script>
+		document.getElementById("password-input").focus();
+	</script>
