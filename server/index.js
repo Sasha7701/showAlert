@@ -3,10 +3,11 @@
 // import cookieParser from "cookie-parser";
 // import session from "express-session";
  import chalk from "chalk";
-//
+ import renderTemplate from "./util/renderTemplate";
  import sequelize from "./util/sequelize";
 // import apiRoutes from "./routes/api";
  import reactRoutes from "./routes/react";
+ import tvApi from "./routes/tvApi";
 // import authRoutes from "./routes/auth";
 // const deserializeUserMW = require("./middleware/deserializeUser");
 // const bodyParser = require("body-parser");
@@ -43,7 +44,7 @@
 // app.use("/api", apiRoutes);
 // app.use("/auth", authRoutes);
 //
-require("dotenv").config();
+import dotenv from "dotenv";
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -54,11 +55,10 @@ const deserializeUserMW = require ("./middleware/deserializeUser");
 
 const User = require("./models/user");
 
-const renderTemplate = require("./util/renderTemplate");
-
 const requireLoggedIn = require("./middleware/requireLoggedIn");
 const requireLoggedOut = require("./middleware/requireLoggedOut");
 
+dotenv.config();
 const app = express();
 const cookieSecret = process.env.COOKIE_SECRET || "dev";
 
@@ -76,6 +76,7 @@ app.use(session({
 	store: new SessionStore({ db: sequelize }),
 }));
 app.use(deserializeUserMW);
+app.use(tvApi);
 
 // app.use(requireLoggedOut);
 
