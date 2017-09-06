@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>Show Time!</title>
+
+	</head>
+
+	<body>
+		<div class="shows">
+			<% if (message) { %>
+				<p class="msg-show"><%- message %></p>
+			<% } %>
+
+			<h1 class="list">Welcome</h1>
+
+			<form class="show-search" action="/search" method="get">
+				<input
+					type="text"
+					name="search"
+					placeholder="Search for Show"
+					class="show-search-input"
+				/>
+				<button class="show-search-btn">Search</button>
+			</form>
+<p class="name"><%= name %></p>
+
+</body>
+</html>

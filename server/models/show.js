@@ -1,7 +1,9 @@
 import Sequelize from "sequelize";
+
 import chalk from "chalk";
 import sequelize from "../util/sequelize";
 const path = require("path");
+
 
 const Show = sequelize.define("show", {
 	id: {
@@ -9,7 +11,7 @@ const Show = sequelize.define("show", {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	name: {
+	title: {
 		type: Sequelize.STRING(128),
 		notNull: true,
 	},

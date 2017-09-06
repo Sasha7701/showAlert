@@ -2,49 +2,17 @@
 // import express from "express";
 // import cookieParser from "cookie-parser";
 // import session from "express-session";
- import chalk from "chalk";
- import renderTemplate from "./util/renderTemplate";
- import sequelize from "./util/sequelize";
-// import apiRoutes from "./routes/api";
- import reactRoutes from "./routes/react";
- import tvApi from "./routes/tvApi";
-// import authRoutes from "./routes/auth";
-// const deserializeUserMW = require("./middleware/deserializeUser");
-// const bodyParser = require("body-parser");
-// const connectSessionSequelize = require("connect-session-sequelize");
-// const User = require("./models/user");
-// // Configure app
-// dotenv.config();
-// const app = express();
-// const SessionStore = connectSessionSequelize(session.Store);
-// const secret = process.env.COOKIE_SECRET || "dev";
-//
-// app.set("views", "./server/views");
-// app.set("view engine", "ejs");
-// app.use(express.static("assets"));
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-// app.use(cookieParser(secret));
-// app.use(session({
-// 	secret: secret,
-// 	store: new SessionStore({ db: sequelize }),
-// }));
-//
-// app.use(deserializeUserMW);
-//
-// // app.get("/", function(req, res) {
-// // 	if (req.user) {
-// // 		return res.redirect("/docs");
-// // 	}
-// //
-// // 	renderTemplate(req, res, "Welcome", "index");
-// // });
-//
-// // Custom routes
-// app.use("/api", apiRoutes);
-// app.use("/auth", authRoutes);
-//
 import dotenv from "dotenv";
+import sequelize from "./util/sequelize";
+import chalk from "chalk";
+import reactRoutes from "./routes/react";
+const renderTemplate = require("./util/renderTemplate");
+
+// import apiRoutes from "./routes/api";
+
+const tvApi = require("./routes/tvApi");
+
+const util = require('util');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -52,7 +20,6 @@ const session = require("express-session");
 const connectSessionSequelize = require("connect-session-sequelize");
 const SessionStore = connectSessionSequelize(session.Store);
 const deserializeUserMW = require ("./middleware/deserializeUser");
-
 const User = require("./models/user");
 
 const requireLoggedIn = require("./middleware/requireLoggedIn");
@@ -69,6 +36,7 @@ app.use(bodyParser.json());
 
 // Render views using EJS
 app.set("view engine", "ejs");
+app.set("views", "./server/views");
 app.use(express.static("assets"));
 app.use(cookieParser(cookieSecret));
 app.use(session({
@@ -76,7 +44,7 @@ app.use(session({
 	store: new SessionStore({ db: sequelize }),
 }));
 app.use(deserializeUserMW);
-app.use(tvApi);
+app.use("/", tvApi);
 
 // app.use(requireLoggedOut);
 
@@ -87,11 +55,10 @@ app.get("/signup", function(req, res) {
 });
 
 app.post("/signup", function(req, res) {
-	User.create({
-		firstname: req.body.firstName,
-		lastname: req.body.lastName,
+console.log(util.inspect(User, false, null));
+  User.create({
 		email: req.body.email,
-		username: req.body.userName,
+		username: req.body.username,
 		password: req.body.password,
 	})
 	.then(function(user) {
@@ -144,6 +111,30 @@ app.post("/", function(req, res) {
 			error: "The database exploded, please try again",
 		});
 	});
+});
+
+app.post("/login", function(req, res) {
+	return User.findOne({
+		where: {
+			username: req.body.username,
+    },
+	})
+		.then(function(user) {
+			if (user) {
+				return user.comparePassword(req.body.password).then(function(valid) {
+					if (valid) {
+						req.session.userid = user.get("id");
+						return user;
+					}
+					else {
+						throw new Error("Incorrect password");
+					}
+				});
+			}
+			else {
+				throw new Error("Username not found");
+			}
+		});
 });
 
 

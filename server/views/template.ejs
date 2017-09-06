@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> PhotoPop </title>
-		<link rel="stylesheet" type="text/css" href="./css/reset.css"/>
-		<link rel="stylesheet" type="text/css" href="./css/style.css"/>
+		<title> Shows </title>
+
 	</head>
 
 	<body>
-
+<div class="container">
 		<main>
 			<% if (page) { %>
 				<%- include("./pages/" + page, pageArgs); %>
@@ -15,7 +14,7 @@
 						No page variable provided!
 			<% } %>
 		</main>
-
+</div>
 
 	</body>
 </html>
