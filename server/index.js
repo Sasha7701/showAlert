@@ -112,7 +112,7 @@ app.post("/login", function(req, res) {
 	return User.findOne({
 		where: {
 			username: req.body.username,
-    },
+		},
 	})
 		.then(function(user) {
 			if (user) {

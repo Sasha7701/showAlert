@@ -31,10 +31,10 @@ console.log(err, "oOOoooooooooooooooooooo");
 	};
 }
 
-export function loadGif(id) {
+export function loadShow(id) {
 	return (dispatch, getStore) => {
 		const { shows } = getStore().shows;
-
+console.log(shows, "AAAAAAAAAAAAAAAAA");
 		// First check if we have the gif. If we do, serve it right away!
 		const cachedShow = shows.find((show) => show.id === id);
 		if (cachedShow) {
