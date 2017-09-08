@@ -16,24 +16,23 @@ class Search extends React.Component {
 
 	_handleSubmit = (ev) => {
 		ev.preventDefault();
-		this.props.searchGifs(this.state.search);
+		this.props.searchShows(this.state.search);
 	};
 
 	render() {
-		let content;
+		 let content;
 
 		if (this.props.isLoading) {
 			content = <Loader/>;
 		}
 		else {
-			content = [0, 1, 2].map((col) => {
+			console.log(this.props.shows, "fthdtghdfhdfghdthdfhjdyfhjfyghj");
+			content =
+			this.props.shows.map((col) => {
 				return (
 					<div className="Search-results-column column">
-						{this.props.gifs
-							.filter((gif, idx) => idx % 3 === col)
-							.map((gif) => {
-								return <GifResult gif={gif} key={gif.id}/>;
-							})
+						{this.props.shows}
+							)
 						}
 					</div>
 				);
@@ -45,7 +44,7 @@ class Search extends React.Component {
 				<form className="Search-form" onSubmit={this._handleSubmit}>
 					<input
 						className="Search-form-input"
-						placeholder="Search for gifs"
+						placeholder="Search for shows"
 						value={this.state.search}
 						onChange={this._handleChange}
 					/>
@@ -62,15 +61,15 @@ class Search extends React.Component {
 
 Search.propTypes = {
 	// State
-	gifs: PropTypes.array.isRequired,
+	shows: PropTypes.array.isRequired,
 	isLoading: PropTypes.bool,
 
 	// Actions
-	searchGifs: PropTypes.func.isRequired,
+	searchShows: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
-	const { shows, isLoading } = state.shows;
+	const { shows, isLoading } = state.search;
 
 	return {
 		shows,

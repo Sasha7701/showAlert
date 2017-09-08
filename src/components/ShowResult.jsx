@@ -2,18 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
+
 class ShowResult extends React.Component {
 	render() {
-		const { gif } = this.props;
-
+		const { shows } = this.props;
+    console.log(shows, this.props, "PPPPPPPPPPPPPPP");
 		return (
-			<Link className="GifResult" to={`/gifs/${gif.id}`}>
-				<img
-					className="GifResult-image"
-					src={gif.images.fixed_width.url}
-					style={{ height: gif.images.fixed_width.height }}
+
+			<Link className="ShowResult" to={`/shows/${shows.id}`}>
 				/>
 			</Link>
+
 		);
 	}
 }

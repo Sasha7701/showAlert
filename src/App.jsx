@@ -18,7 +18,7 @@ class App extends React.Component {
 				<BrowserRouter>
 					<div className="App">
 						<Link to="/" className="App-title">
-							<h1>Gif Search</h1>
+							<h1>Show Search</h1>
 						</Link>
 						<Switch>
 							<Route exact path="/Search" component={Search} />

@@ -8,11 +8,7 @@ import chalk from "chalk";
 import reactRoutes from "./routes/react";
 const renderTemplate = require("./util/renderTemplate");
 
-// import apiRoutes from "./routes/api";
-
 const tvApi = require("./routes/tvApi");
-
-const util = require('util');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -24,7 +20,6 @@ const User = require("./models/user");
 
 const requireLoggedIn = require("./middleware/requireLoggedIn");
 const requireLoggedOut = require("./middleware/requireLoggedOut");
-
 dotenv.config();
 const app = express();
 const cookieSecret = process.env.COOKIE_SECRET || "dev";
@@ -44,7 +39,8 @@ app.use(session({
 	store: new SessionStore({ db: sequelize }),
 }));
 app.use(deserializeUserMW);
-app.use("/", tvApi);
+// http://localhost:7000/api/search?q=cbs
+app.use("/api", tvApi);
 
 // app.use(requireLoggedOut);
 
@@ -55,22 +51,21 @@ app.get("/signup", function(req, res) {
 });
 
 app.post("/signup", function(req, res) {
-console.log(util.inspect(User, false, null));
-  User.create({
+	User.create({
 		email: req.body.email,
 		username: req.body.username,
 		password: req.body.password,
 	})
-	.then(function(user) {
-		req.session.userid = user.id;
-		res.redirect("/home");
-	})
-	.catch(function(err) {
-		console.log(err);
-		renderTemplate(req, res, "Signup", "signup", {
-			error: "Invalid username or password",
+		.then(function(user) {
+			req.session.userid = user.id;
+			res.redirect("/home");
+		})
+		.catch(function(err) {
+			console.log(err);
+			renderTemplate(req, res, "Signup", "signup", {
+				error: "Invalid username or password",
+			});
 		});
-	});
 });
 
 
@@ -84,33 +79,33 @@ app.post("/", function(req, res) {
 			username: req.body.username,
 		},
 	})
-	.then(function(user) {
-		if (user) {
-			user.comparePassword(req.body.password).then(function(valid) {
-				console.log(user);
-				if (valid) {
-					req.session.userid = user.get("id");
-					res.redirect("/home");
-				}
-				else {
-					renderTemplate(req, res, "Login", "login", {
-						error: "Incorrect password",
-					});
-				}
-			});
-		}
-		else {
+		.then(function(user) {
+			if (user) {
+				user.comparePassword(req.body.password).then(function(valid) {
+					console.log(user);
+					if (valid) {
+						req.session.userid = user.get("id");
+						res.redirect("/home");
+					}
+					else {
+						renderTemplate(req, res, "Login", "login", {
+							error: "Incorrect password",
+						});
+					}
+				});
+			}
+			else {
+				renderTemplate(req, res, "Login", "login", {
+					error: "Username not found",
+				});
+			}
+		})
+		.catch(function(err) {
+			console.log(err);
 			renderTemplate(req, res, "Login", "login", {
-				error: "Username not found",
+				error: "The database exploded, please try again",
 			});
-		}
-	})
-	.catch(function(err) {
-		console.log(err);
-		renderTemplate(req, res, "Login", "login", {
-			error: "The database exploded, please try again",
 		});
-	});
 });
 
 app.post("/login", function(req, res) {

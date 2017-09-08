@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import gifs from "./search";
+import search from "./search";
 
 export default combineReducers({
-	gifs,
+	search,
 });
