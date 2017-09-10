@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
 import reducers from "./reducers";
 import Search from "pages/Search";
-
+import Show from "pages/Show";
 
 
 const store = createStore(reducers, applyMiddleware(reduxThunk));
@@ -22,6 +22,7 @@ class App extends React.Component {
 						</Link>
 						<Switch>
 							<Route exact path="/Search" component={Search} />
+							<Route exact path="/Show/:showId" component={Show}/>
 						</Switch>
 					</div>
 				</BrowserRouter>

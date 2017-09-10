@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchShows } from "actions/search";
 import ShowResult from "components/ShowResult";
-import Loader from "components/Loader";
+
+import { Link } from "react-router-dom";
 
 class Search extends React.Component {
 	state = {
@@ -20,23 +21,39 @@ class Search extends React.Component {
 	};
 
 	render() {
-		 let content;
-
-		if (this.props.isLoading) {
+		const { shows, isLOADING, error } = this.props;
+		let content;
+		if (isLOADING) {
 			content = <Loader/>;
 		}
+
+		else if (!shows) {
+			content = <div className = "TV shows-Error">{ error }</div>;
+		}
+
 		else {
-			console.log(this.props.shows, "fthdtghdfhdfghdthdfhjdyfhjfyghj");
-			content =
-			this.props.shows.map((col) => {
-				return (
-					<div className="Search-results-column column">
-						{this.props.shows}
-							)
-						}
-					</div>
-				);
-			});
+			content = (
+
+				<div className = "shows">
+					{shows.map((show) => {
+						console.log(show, "ggggggggggggggggggggggg");
+						return [
+							<div className = "item">
+								<Link key = {show.show.id} to= {`/show/${show.show.id}`}>
+									<h3 className = "show-name"> {show.show.name}</h3>
+									<img className= "tvShow-image-main" src={show.show.image ? show.show.image.medium : ''}/>
+								</Link>
+											 <div className= "product-image">
+
+											 <h3 className= "schedule"> {show.show.schedule.days}</h3>
+											 <h3 className= "time"> {show.show.schedule.time}</h3>
+											 <h3 className= "network-name"> {show.show.network.name}</h3>
+											 <h3 className= "summary"> {show.show.summary}</h3>
+											 </div>
+										 </div>];
+					})}
+				</div>
+			);
 		}
 
 		return (
@@ -51,7 +68,7 @@ class Search extends React.Component {
 					<button className="Search-form-submit">Submit</button>
 				</form>
 
-				<div className="Search-results columns">
+				<div className="Search-results">
 					{content}
 				</div>
 			</div>
