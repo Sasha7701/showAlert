@@ -34,13 +34,17 @@ console.log(err, "oOOoooooooooooooooooooo");
 // export function loadShow(showId) {
 // 	return (dispatch) => {
 // 		dispatch({ type: "SHOWS_LOAD_START" });
-// 		API.get(`/show/${showId}`).then((res) => {
+// 		API.get(`/search/${showId}`,{
+// 			args: {
+// 				query: showId,
+// 			}
+// 		}).then((res) => {
 // 			console.log(res.data, "UUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 // 			if (res.data) {
 // 				dispatch({
 // 					type: "SHOWS_LOAD_SUCCESS",
 // 				 	show: res.data.show,
-// 					showId: res.data.show.id,
+// 					showId: res.data.show.show.id,
 // 				});
 // 			}
 // 			else {
@@ -64,7 +68,7 @@ export function loadShow(id) {
 		const { shows } = getStore().search;
 console.log(shows, "AAAAAAAAAAAAAAAAA");
 		// First check if we have the gif. If we do, serve it right away!
-		const cachedShow = shows.find((showId) => id === id);
+		const cachedShow = shows.find((show) => show.show.id === id);
 		if (cachedShow) {
 console.log(cachedShow);
 			return dispatch({
@@ -75,7 +79,7 @@ console.log(cachedShow);
 
 		// Otherwise, request it
 		dispatch({ type: "SHOWS_LOAD_START" });
-		console.log(id, "PPPPPPPPPPPP");
+
 		API.get(`/search/${id}`).then((res) => {
 			if (res.data && res.data.id) {
 				dispatch({

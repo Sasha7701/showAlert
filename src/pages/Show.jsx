@@ -14,7 +14,7 @@ class Show extends Component {
   }
 
 	_handleAddCart = (show) => {
-		this.props.addToSelect(this.props.show);
+		this.props.addToSelect(this.props.show.id);
 	}
 
 	render() {
