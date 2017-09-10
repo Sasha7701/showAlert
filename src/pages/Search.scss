@@ -68,6 +68,28 @@ input  {
 	font-size: 22px;
 }
 
+.item {
+	padding: 20px 20px;
+	display: inline-block;
+}
+
+.show-name {
+	color: black;
+	font-size: 25px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px;
+	padding-bottom: 10px;
+}
+
+.product-image {
+	color: black;
+	font-size: 17px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px;
+	padding-top: 10px;
+}
 .Search-results {
-	display: inline;
+	color: red;
 }

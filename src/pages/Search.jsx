@@ -46,9 +46,9 @@ class Search extends React.Component {
 								</Link>
 											 <div className= "product-image">
 
-											 <h3 className= "schedule"> {show.show.schedule.days}</h3>
-											 <h3 className= "time"> {show.show.schedule.time}</h3>
-											 <h3 className= "network-name"> {show.show.network.name}</h3>
+											 <h3 className= "schedule"> Days: {show.show.schedule.days}</h3>
+											 <h3 className= "time"> Time: {show.show.schedule.time}</h3>
+											 <h3 className= "network-name"> Network: {show.show.network.name}</h3>
 											 {/* <h3 className= "summary"> {show.show.summary}</h3> */}
 											 </div>
 										 </div>];
