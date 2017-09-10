@@ -17,9 +17,7 @@ class App extends React.Component {
 			<Provider store={store}>
 				<BrowserRouter>
 					<div className="App">
-						<Link to="/" className="App-title">
-							<h1>Show Search</h1>
-						</Link>
+
 						<Switch>
 							<Route exact path="/Search" component={Search} />
 							<Route exact path="/Show/:showId" component={Show}/>

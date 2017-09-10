@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchShows } from "actions/search";
 import ShowResult from "components/ShowResult";
-
+import "./Search.scss";
 import { Link } from "react-router-dom";
+import Navigation from "components/Navigation";
 
 class Search extends React.Component {
 	state = {
@@ -48,7 +49,7 @@ class Search extends React.Component {
 											 <h3 className= "schedule"> {show.show.schedule.days}</h3>
 											 <h3 className= "time"> {show.show.schedule.time}</h3>
 											 <h3 className= "network-name"> {show.show.network.name}</h3>
-											 <h3 className= "summary"> {show.show.summary}</h3>
+											 {/* <h3 className= "summary"> {show.show.summary}</h3> */}
 											 </div>
 										 </div>];
 					})}
@@ -57,8 +58,15 @@ class Search extends React.Component {
 		}
 
 		return (
+
+
 			<div className="Search">
+
+				<div className="mainpic">
+					<div className="black">
+						<Navigation />
 				<form className="Search-form" onSubmit={this._handleSubmit}>
+					<div className="search-input">
 					<input
 						className="Search-form-input"
 						placeholder="Search for shows"
@@ -66,11 +74,15 @@ class Search extends React.Component {
 						onChange={this._handleChange}
 					/>
 					<button className="Search-form-submit">Submit</button>
+				</div>
 				</form>
 
-				<div className="Search-results">
-					{content}
-				</div>
+			</div>
+			</div>
+
+			<div className="Search-results">
+				{content}
+			</div>
 			</div>
 		);
 	}

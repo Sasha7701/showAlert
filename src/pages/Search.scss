@@ -1,0 +1,73 @@
+.mainpage {
+	background: #141414;
+	width: 100%;
+	height: 800px;
+}
+
+.mainpic {
+	width: 100%;
+	height: 450px;
+	background: url("Arrow.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center;
+
+}
+.title {
+	color: white;
+	width: 450px;
+     padding-left: 20px;
+     margin-top: 80px;
+     display: block;
+     position: fixed;
+		 font-size: 40px;
+}
+
+.black {
+	width: 100%;
+	height: 450px;
+	background: black;
+	opacity: 0.6;
+}
+
+.Search-form {
+	background-color: #111;
+	text-align: center;
+	color: white;
+	opacity: 0.8;
+	margin: 0 auto;
+  width: 50%;
+  padding: 70px 10px;
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+.sign {
+	text-align: center;
+	text-shadow: 2px;
+	font-size: 30px;
+}
+
+
+input  {
+	border: blue;
+	margin: 0 auto;
+	width: 300px;
+	height: 50px;
+	font-size: 22px;
+}
+
+ .Search-form-submit {
+	margin: 0 auto;
+	background-color: #dd0510;
+	width: 200px;
+	height: 50px;
+	color: white;
+	font-size: 22px;
+}
+
+.Search-results {
+	display: inline;
+}
