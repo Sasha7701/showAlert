@@ -19,8 +19,8 @@ class Show extends Component {
 
 	render() {
 		 // const item = PRODUCTS[this.state.itemId];
-		 console.log(show,"ffffffffffffffffffff");
-		const { show, error, } = this.props;
+		 console.log(show, this.props,"ffffffffffffffffffff");
+		const { show, error } = this.props;
 		if (!show) {
 			 return <Loader/>;
 		 }
@@ -32,7 +32,7 @@ class Show extends Component {
 				 <div className = "show-image">
 				 {/* {show.map((show) => { */}
 				 {/* return [ */}
-					  <h1 className = "show-name"><span>Name:</span> {show.show.name}</h1>
+					  <h1 className = "show-name"><span>Name:</span> {show.name}</h1>
 					  {/* <img src = {show.medium} className = "img"/>, */}
 					 {/* ]; */}
 			   {/* })} */}
@@ -41,10 +41,10 @@ class Show extends Component {
 				add Show
 			  </button>
 					<div className = "text">
-				 <p className= "schedule"><span>Schedule:</span> {show.show.schedule.days}</p>
+				 {/* <p className= "schedule"><span>Schedule:</span> {show.schedule.days}</p>
 				 <p className= "time"><span>Time:</span> {show.show.schedule.time}</p>
 				 <p className= "network-name"><span>Network Name:</span> {show.show.network.name}</p>
-				 <p className= "summary"><span>Summary:</span> {show.show.summary}</p>
+				 <p className= "summary"><span>Summary:</span> {show.show.summary}</p> */}
 			 </div>
 
 				</div>

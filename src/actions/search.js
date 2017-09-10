@@ -63,14 +63,20 @@ console.log(err, "oOOoooooooooooooooooooo");
 // 			});
 // 	};
 // }
-export function loadShow(id) {
+export function loadShow(showId) {
 	return (dispatch, getStore) => {
 		const { shows } = getStore().search;
-console.log(shows, "AAAAAAAAAAAAAAAAA");
+		console.log(shows, "AAAAAAAAAAAAAAAAA");
 		// First check if we have the gif. If we do, serve it right away!
-		const cachedShow = shows.find((show) => show.show.id === id);
+		const cachedShow = shows.find((show) => {
+			console.log("SHOW:", show);
+			console.log("SHOWID:", showId);
+
+			return showId == show.show.id;
+		});
+		console.log(cachedShow , 'PPPPPPPPPPP');
 		if (cachedShow) {
-console.log(cachedShow);
+
 			return dispatch({
 				type: "SHOWS_LOAD_SUCCESS",
 				show: cachedShow,
@@ -80,7 +86,7 @@ console.log(cachedShow);
 		// Otherwise, request it
 		dispatch({ type: "SHOWS_LOAD_START" });
 
-		API.get(`/search/${id}`).then((res) => {
+		API.get(`/search/${showId}`).then((res) => {
 			if (res.data && res.data.id) {
 				dispatch({
 					type: "SHOWS_LOAD_SUCCESS",
