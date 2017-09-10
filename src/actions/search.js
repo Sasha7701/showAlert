@@ -31,13 +31,42 @@ console.log(err, "oOOoooooooooooooooooooo");
 	};
 }
 
+// export function loadShow(showId) {
+// 	return (dispatch) => {
+// 		dispatch({ type: "SHOWS_LOAD_START" });
+// 		API.get(`/show/${showId}`).then((res) => {
+// 			console.log(res.data, "UUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+// 			if (res.data) {
+// 				dispatch({
+// 					type: "SHOWS_LOAD_SUCCESS",
+// 				 	show: res.data.show,
+// 					showId: res.data.show.id,
+// 				});
+// 			}
+// 			else {
+// 				dispatch({
+// 					type: "SHOWS_LOAD_FAILURE",
+// 					error: "Can not find that product!",
+// 				});
+// 			}
+// 		})
+//
+// 			.catch((err) => {
+// 				dispatch({
+// 					type: "SHOWS_LOAD_FAILURE",
+// 					error: "Something went wrong. Refresh",
+// 				});
+// 			});
+// 	};
+// }
 export function loadShow(id) {
 	return (dispatch, getStore) => {
-		const { shows } = getStore().shows;
+		const { shows } = getStore().search;
 console.log(shows, "AAAAAAAAAAAAAAAAA");
 		// First check if we have the gif. If we do, serve it right away!
-		const cachedShow = shows.find((show) => show.id === id);
+		const cachedShow = shows.find((showId) => id === id);
 		if (cachedShow) {
+console.log(cachedShow);
 			return dispatch({
 				type: "SHOWS_LOAD_SUCCESS",
 				show: cachedShow,
@@ -46,12 +75,13 @@ console.log(shows, "AAAAAAAAAAAAAAAAA");
 
 		// Otherwise, request it
 		dispatch({ type: "SHOWS_LOAD_START" });
-
-		API.get(`/shows/${id}`).then((res) => {
+		console.log(id, "PPPPPPPPPPPP");
+		API.get(`/search/${id}`).then((res) => {
 			if (res.data && res.data.id) {
 				dispatch({
 					type: "SHOWS_LOAD_SUCCESS",
 					show: res.data,
+
 				});
 			}
 			else {

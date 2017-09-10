@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchShows } from "actions/search";
 import ShowResult from "components/ShowResult";
-import Loader from "components/Loader";
+
 import { Link } from "react-router-dom";
 
 class Search extends React.Component {
@@ -36,11 +36,12 @@ class Search extends React.Component {
 
 				<div className = "shows">
 					{shows.map((show) => {
+						console.log(show, "ggggggggggggggggggggggg");
 						return [
 							<div className = "item">
-								<Link key = {show.id} to= {`/show/${show.id}`}>
+								<Link key = {show.show.id} to= {`/show/${show.show.id}`}>
 									<h3 className = "show-name"> {show.show.name}</h3>
-									<img className= "tvShow-image-main" src= {show.show.image}/>
+									<img className= "tvShow-image-main" src={show.show.image ? show.show.image.medium : ''}/>
 								</Link>
 											 <div className= "product-image">
 

@@ -35,11 +35,10 @@ export default function(state = INITIAL_STATE, action) {
 	case "SHOWS_LOAD_SUCCESS":
 		return {
 			...state,
+			activeShow: action.show,
 			isLoading: false,
-			activeShow: action.shows,
-
 		};
-console.log(action.shows, "ffvfvsrfv");
+
 		// Error cases
 	case "SHOWS_SEARCH_FAILURE":
 	case "SHOWS_LOAD_FAILURE":
