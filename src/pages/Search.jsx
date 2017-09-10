@@ -35,7 +35,7 @@ class Search extends React.Component {
 			content = (
 
 				<div className = "shows">
-					{shows.map((show) => {
+					{shows.map((show, idx) => {
 						console.log(show, "ggggggggggggggggggggggg");
 						return [
 							<div className = "item">
