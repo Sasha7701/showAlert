@@ -1,15 +1,18 @@
 import "./App.scss";
 import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import Navigation from "components/Nav";
 import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
 import reducers from "./reducers";
 import Search from "pages/Search";
 import Show from "pages/Show";
+import Fav from "pages/Fav";
+import favList from "pages/favList";
 
-
-const store = createStore(reducers, applyMiddleware(reduxThunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(reduxThunk)));
 
 class App extends React.Component {
 	render() {
@@ -17,12 +20,15 @@ class App extends React.Component {
 			<Provider store={store}>
 				<BrowserRouter>
 					<div className="App">
-						<Link to="/" className="App-title">
+						{/* <Link to="/" className="App-title">
 							<h1>Show Search</h1>
-						</Link>
+						</Link> */}
+						<Navigation/>
 						<Switch>
 							<Route exact path="/Search" component={Search} />
 							<Route exact path="/Show/:showId" component={Show}/>
+							<Route exact path="/Fav" component={Fav} />
+							<Route exact path = "/favList" component = {favList} />
 						</Switch>
 					</div>
 				</BrowserRouter>

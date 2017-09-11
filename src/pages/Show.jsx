@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import PRODUCTS from "json/products.json";
 //import EmptyCart from "components/Checkout";
-//import { addToCart } from "actions/cart";
+import { addToCart } from "actions/fav";
 import Loader from "components/Loader";
 import { loadShow } from "actions/search";
 import { connect } from "react-redux";
@@ -14,13 +14,14 @@ class Show extends Component {
   }
 
 	_handleAddCart = (show) => {
-		this.props.addToSelect(this.props.show.id);
+		this.props.addToCart(this.props.show);
+
 	}
 
 	render() {
 		 // const item = PRODUCTS[this.state.itemId];
-		 console.log(show, this.props,"ffffffffffffffffffff");
-		const { show, error } = this.props;
+		 console.log(show, fav, this.props,"ffffffffffffffffffff");
+		const { show, fav, error } = this.props;
 		if (!show) {
 			 return <Loader/>;
 		 }
@@ -37,9 +38,11 @@ class Show extends Component {
 					 {/* ]; */}
 			   {/* })} */}
 					</div>
-					<button className="add" onClick={this._handleAdd} value={show.id}>
+					<button className="add" onClick={this._handleAddCart} value={show.id}>
 				add Show
-			  </button>
+				{console.log(show.fav, show.id, "HEEEEEEEEEEEEEEEEEEEEEEE")}
+				</button>
+
 					<div className = "text">
 				 {/* <p className= "schedule"><span>Schedule:</span> {show.schedule.days}</p>
 				 <p className= "time"><span>Time:</span> {show.show.schedule.time}</p>
@@ -61,11 +64,11 @@ function mapStateToProps(state, props) {
 		error,
     isLoading,
 
-    //cart: state.cart,
+    fav: state.fav,
 
 	};
 }
 
 
 
-export default connect(mapStateToProps, { loadShow })(Show);
+export default connect(mapStateToProps, { loadShow, addToCart })(Show);

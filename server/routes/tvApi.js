@@ -1,5 +1,6 @@
 import express from "express";
 import Show from "../models/show";
+import apiErr from "../util/apiErr";
 const User = require("../models/user");
 const renderTemplate = require("../util/renderTemplate");
 const requireLoggedIn = require("../middleware/requireLoggedIn");
@@ -35,6 +36,9 @@ router.get('/search', function(req, res) {
         });
         // res.send();
 
+      }
+    });
+  });
 //         renderTemplate(req, res, "Search", "search", {
 //       name: body.network["name"],
 //       message: "SHOW TIME",
@@ -42,8 +46,35 @@ router.get('/search', function(req, res) {
 //         // console.log(body); // Print the json response
 // });
 // console.log(body.network["name"], "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-    }
-  });
+router.get("/fav", (req, res) => {
+console.log(res.body, "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+
+  res.send(req.body);
 });
+router.post("/fav", (req, res) => {
+console.log(req.body, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+  res.send(req.body);
+  // const errors = Show.getSubmitErrors(req.body);
+  //
+	// if (errors) {
+	// 	console.error(errors);
+  //
+	// 	return apiErr(req, res, {
+	// 		code: 400,
+	// 		type: "BAD_PARAM",
+	// 		message: `Something was wrong with `,
+	// 		data: errors,
+	// 	});
+	// }
+  // Show.create({
+  // 		name: req.body.name,
+  // 		summary: req.body.summary,
+  // 		time: req.body.time,
+  // 		days: req.body.days,
+  // 	});
+
+});
+
+
 
 module.exports = router;

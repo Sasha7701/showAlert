@@ -72,7 +72,7 @@ export function loadShow(showId) {
 			console.log("SHOW:", show);
 			console.log("SHOWID:", showId);
 
-			return showId == show.show.id;
+			return parseInt(showId) === show.show.id;
 		});
 		console.log(cachedShow , 'PPPPPPPPPPP');
 		if (cachedShow) {

@@ -1,0 +1,40 @@
+
+.Nav {
+	text-align: center;
+	padding: 20px;
+	margin-bottom: 20px;
+	background: rgb(232,239,213);
+	border-bottom: 1px solid #000;
+
+	&-link {
+		padding: 0 4px;
+		color: rgb(222, 214, 156);
+		text-decoration: none;
+
+		&.is-active,
+		&:hover {
+			color: rgb(20,41,83);
+			;
+		}
+
+		&.is-active {
+			text-decoration: underline;
+		}
+	}
+}
+
+.Nav-Link-Home {
+padding: 0 4px;
+color: rgb(222, 214, 156);
+text-decoration: none;
+
+	&.is-active,
+	&:hover {
+		color: rgb(20,41,83);
+		;
+	}
+
+&.is-active {
+	text-decoration: underline;
+	}
+}

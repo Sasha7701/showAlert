@@ -11,11 +11,19 @@ const Show = sequelize.define("show", {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	title: {
+	name: {
 		type: Sequelize.STRING(128),
 		notNull: true,
 	},
-	alert: {
+	  summary: {
+		type: Sequelize.STRING,
+		notNull: true,
+	},
+	 time: {
+	 type: Sequelize.STRING,
+	 notNull: true,
+	},
+	days: {
 		type: Sequelize.STRING,
 		notNull: true,
 	},
