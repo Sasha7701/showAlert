@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 // Render views using EJS
 app.set("view engine", "ejs");
 app.set("views", "./server/views");
-app.use(express.static("assets"));
+app.use(express.static("/assets"));
 app.use(cookieParser(cookieSecret));
 app.use(session({
 	secret: cookieSecret,
