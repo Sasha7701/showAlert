@@ -9,9 +9,6 @@ import PropTypes from "prop-types";
 
 class Navigation extends Component {
 	render() {
-		console.log(this.props);
-		// const { cartTotalItems } = this.props;
-
 		const links = [{
 			to: "/search",
 			text: "Search",
@@ -20,14 +17,12 @@ class Navigation extends Component {
 			text: "Show",
 		}, {
 			to: "/fav",
-			text: "FAVORITE",
-		}, {
-			to: "/favList",
-			text: "favList",
-		 }];
+			text: "Favorites",
+		},
+		];
 
 
-    return (
+		return (
 			<nav className="Nav">
 				{links.map((link) => {
 					return (

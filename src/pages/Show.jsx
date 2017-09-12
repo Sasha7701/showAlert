@@ -5,7 +5,7 @@ import { addToCart } from "actions/fav";
 import Loader from "components/Loader";
 import { loadShow } from "actions/search";
 import { connect } from "react-redux";
-// import { connect } from "redux-thunk";
+
 
 class Show extends Component {
 	componentDidMount() {
@@ -27,28 +27,23 @@ class Show extends Component {
 		 }
 		 else {
 		 return (
-			 <div className="item">
-				 {/* <h1>{this.state.itemId}</h1> */}
+			 <div className="show">
 				 <h1 className = "show-name">{show.show.name}</h1>
 				 <div className = "show-image">
 				 {/* {show.map((show) => { */}
 				 {/* return [ */}
-					  <h1 className = "show-name"><span>Name:</span> {show.name}</h1>
-					  {/* <img src = {show.medium} className = "img"/>, */}
+					 <img className= "tvShow-image-main" src={show.show.image ? show.show.image.medium : ''}/>
+					 	<h3 className= "schedule"> Genres: {show.show.genres + ""}</h3>
+						<h3 className= "schedule"> Days: {show.show.schedule.days}</h3>
+						<h3 className= "time"> Time: {show.show.schedule.time}</h3>
+						<h3 className= "network-name"> Network: {show.show.network.name}</h3>
+						<h3 className= "summary">Summary: {show.show.summary}</h3>
 					 {/* ]; */}
 			   {/* })} */}
 					</div>
 					<button className="add" onClick={this._handleAddCart} value={show.id}>
 				add Show
-				{console.log(show.fav, show.id, "HEEEEEEEEEEEEEEEEEEEEEEE")}
-				</button>
-
-					<div className = "text">
-				 {/* <p className= "schedule"><span>Schedule:</span> {show.schedule.days}</p>
-				 <p className= "time"><span>Time:</span> {show.show.schedule.time}</p>
-				 <p className= "network-name"><span>Network Name:</span> {show.show.network.name}</p>
-				 <p className= "summary"><span>Summary:</span> {show.show.summary}</p> */}
-			 </div>
+					</button>
 
 				</div>
 			);
