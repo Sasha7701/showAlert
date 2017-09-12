@@ -5,7 +5,7 @@ import { searchShows } from "actions/search";
 import ShowResult from "components/ShowResult";
 import "./Search.scss";
 import { Link } from "react-router-dom";
-import Navigation from "components/Navigation";
+import Navigation from "components/Nav";
 
 class Search extends React.Component {
 	state = {
@@ -44,13 +44,11 @@ class Search extends React.Component {
 									<h3 className = "show-name"> {show.show.name}</h3>
 									<img className= "tvShow-image-main" src={show.show.image ? show.show.image.medium : ''}/>
 								</Link>
-											 <div className= "product-image">
-
-											 <h3 className= "schedule"> Days: {show.show.schedule.days}</h3>
+											 <div className= "show-details">
+											<h3 className= "schedule"> Days: {show.show.schedule.days}</h3>
 											 <h3 className= "time"> Time: {show.show.schedule.time}</h3>
 											 <h3 className= "network-name"> Network: {show.show.network.name}</h3>
-											 {/* <h3 className= "summary"> {show.show.summary}</h3> */}
-											 </div>
+										 	</div>
 										 </div>];
 					})}
 				</div>

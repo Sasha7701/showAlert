@@ -17,7 +17,8 @@ function favReducer(state = INITIAL_STATE, action) {
 			...state,
 			error: action.error,
 		};
-	default:
+
+default:
 		return state;
 	}
 }

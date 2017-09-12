@@ -1,29 +1,34 @@
 import API from "util/api";
 
-export function submitOrder(order, cartItemIds) {
-	return (dispatch, getStore) => {
+export function addToFav(show) {
+console.log( show, "QQQQQQQQQQ");
+  return (dispatch, getStore) => {
 		//Get current state from the store (at the time of function being executed)
 		const { fav } = getStore().fav;
-		const showIds  =	fav.map(function(show) {
-			return show.show.id;
+    console.log(fav.id, "what's inside");
+    const showIds  =	fav.map(function(show) {
+			return show.id;
 		});
 		dispatch({
 			type: "SUBMIT_ORDER_START",
 		});
-		console.log("submitOrder(order, fav)", showIds);
-		API.post('/list', {
+		console.log("submitList( fav)", fav.name, [show.id], show.showIds);
+		API.post('/fav', {
 			args: {
-
-				shows: showIds,
-			},
+				name: show.name,
+				summary: show.summary,
+				time: show.time,
+				days: show.days,
+        shows: showIds,
+      },
 		})
 			.then((res) => {
 				if (res.data) {
-					console.log("submitOrder(success)",res, res.data);
+					console.log("submitOrder(success)",res);
 					dispatch({
 						type: "SUBMIT_ORDER_SUCCESS",
 						data: res.data,
-						fav,
+						show,
 					});
 				}
 				else {

@@ -31,38 +31,7 @@ console.log(err, "oOOoooooooooooooooooooo");
 	};
 }
 
-// export function loadShow(showId) {
-// 	return (dispatch) => {
-// 		dispatch({ type: "SHOWS_LOAD_START" });
-// 		API.get(`/search/${showId}`,{
-// 			args: {
-// 				query: showId,
-// 			}
-// 		}).then((res) => {
-// 			console.log(res.data, "UUUUUUUUUUUUUUUUUUUUUUUUUUUU");
-// 			if (res.data) {
-// 				dispatch({
-// 					type: "SHOWS_LOAD_SUCCESS",
-// 				 	show: res.data.show,
-// 					showId: res.data.show.show.id,
-// 				});
-// 			}
-// 			else {
-// 				dispatch({
-// 					type: "SHOWS_LOAD_FAILURE",
-// 					error: "Can not find that product!",
-// 				});
-// 			}
-// 		})
-//
-// 			.catch((err) => {
-// 				dispatch({
-// 					type: "SHOWS_LOAD_FAILURE",
-// 					error: "Something went wrong. Refresh",
-// 				});
-// 			});
-// 	};
-// }
+
 export function loadShow(showId) {
 	return (dispatch, getStore) => {
 		const { shows } = getStore().search;

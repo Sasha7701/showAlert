@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-	list: {},
+	show: {},
 	orderSuccess: false,
 	orderFailure: false,
 	error: null,
@@ -7,12 +7,12 @@ const INITIAL_STATE = {
 };
 
 
-function checkoutReduced(state = INITIAL_STATE, action) {
+function favReduced(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case "SUBMIT_ORDER_SUCCESS":
 		return {
 			...state,
-			order: action.list,
+			show: action.show,
 			orderSuccess: true,
 			orderFailure: false,
 		};
@@ -34,5 +34,4 @@ function checkoutReduced(state = INITIAL_STATE, action) {
 	}
 }
 
-
-export default checkoutReduced;
+export default favReduced;

@@ -26,7 +26,7 @@ router.get('/search', function(req, res) {
     url: url+req.query.q,
     json: true,
   }, function(error, response, body) {
-     console.log(body);
+     console.log(body, "SEARCH API API API");
       if(error) {
         res.send("FIX IT");
       }
@@ -46,35 +46,33 @@ router.get('/search', function(req, res) {
 //         // console.log(body); // Print the json response
 // });
 // console.log(body.network["name"], "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-router.get("/fav", (req, res) => {
-console.log(res.body, "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
-
-  res.send(req.body);
-});
+// router.get("/fav", (req, res) => {
+// console.log(res.body, "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+//
+//   res.send(req.body);
+// });
 router.post("/fav", (req, res) => {
-console.log(req.body, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-  res.send(req.body);
-  // const errors = Show.getSubmitErrors(req.body);
-  //
-	// if (errors) {
-	// 	console.error(errors);
-  //
-	// 	return apiErr(req, res, {
-	// 		code: 400,
-	// 		type: "BAD_PARAM",
-	// 		message: `Something was wrong with `,
-	// 		data: errors,
-	// 	});
-	// }
-  // Show.create({
-  // 		name: req.body.name,
-  // 		summary: req.body.summary,
-  // 		time: req.body.time,
-  // 		days: req.body.days,
-  // 	});
+  console.log(req.body, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+  const errors = Show.getSubmitErrors(req.body);
 
+	if (errors) {
+	   console.error("something went wrong");
+
+		return apiErr(req, res, {
+			code: 400,
+			type: "BAD_PARAM",
+			message: `Something was wrong with`,
+			data: errors,
+		});
+	}
+
+	// First create the order
+	Show.create({
+		name: req.body.name,
+		summary: req.body.summary,
+		time: req.body.time,
+		days: req.body.days,
+  });
 });
-
-
 
 module.exports = router;
