@@ -11,15 +11,14 @@ const Show = sequelize.define("show", {
 		autoIncrement: true,
 		primaryKey: true,
 	},
+	showId: {
+		type: Sequelize.INTEGER,
+	},
 	name: {
 		type: Sequelize.STRING(128),
 		notNull: true,
 	},
-	  summary: {
-		type: Sequelize.STRING,
-		notNull: true,
-	},
-	 time: {
+	time: {
 	 type: Sequelize.INTEGER,
 	 notNull: true,
 	},

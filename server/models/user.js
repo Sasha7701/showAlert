@@ -90,7 +90,7 @@ User.prototype.comparePassword = function(pw) {
 	return bcrypt.compare(pw, this.get("password"));
 };
 
-User.belongsToMany(Show, { through: 'UserShow' });
-Show.belongsToMany(User, { through: 'UserShow' });
+User.hasMany(Show);
+Show.belongsTo(User);
 
 module.exports = User;
