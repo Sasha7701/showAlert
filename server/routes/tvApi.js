@@ -26,7 +26,7 @@ router.get('/search', function(req, res) {
     url: url+req.query.q,
     json: true,
   }, function(error, response, body) {
-     console.log(body, "SEARCH API API API");
+    //  console.log(body, "SEARCH API API API");
       if(error) {
         res.send("FIX IT");
       }
@@ -39,6 +39,14 @@ router.get('/search', function(req, res) {
       }
     });
   });
+
+  // SERVER POST /fav:
+  // const shows = showids.map((sid) => {
+  //   return {
+  //     showid: sid,
+  //   }
+  // })
+  // req.user.addShows(shows)
 //         renderTemplate(req, res, "Search", "search", {
 //       name: body.network["name"],
 //       message: "SHOW TIME",
@@ -51,28 +59,36 @@ router.get('/search', function(req, res) {
 //
 //   res.send(req.body);
 // });
+
+
 router.post("/fav", (req, res) => {
-  console.log(req.body, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-  const errors = Show.getSubmitErrors(req.body);
+  console.log( req.body, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+const shows = req.body.show.map((obj)=> {
+  return {
+    showId: obj.show.id,
+    name: obj.show.name,
+  };
+//console.log(shows,  "+++++++++++++++++++++++++++++++++++=========");
 
-	if (errors) {
-	   console.error("something went wrong");
-
-		return apiErr(req, res, {
-			code: 400,
-			type: "BAD_PARAM",
-			message: `Something was wrong with`,
-			data: errors,
-		});
-	}
-
-	// First create the order
-	Show.create({
-		name: req.body.name,
-		summary: req.body.summary,
-		time: req.body.time,
-		days: req.body.days,
+// 	if (errors) {
+// 	   console.error("something went wrong");
+//
+// 		return apiErr(req, res, {
+// 			code: 400,
+// 			type: "BAD_PARAM",
+// 			message: `Something was wrong with`,
+// 			data: errors,
+// 		});
+// 	}
+//
+// 	// First create the order
+ Show.create({
+ id: obj.show.id,
+name: obj.show.name,
+time: obj.show.time,
+days: obj.show.days,
   });
 });
-
+console.log(shows,"+++++++++++++++++++++++++++++++++++=========");
+});
 module.exports = router;

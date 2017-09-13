@@ -23,7 +23,7 @@ _handleAddCart = (fav) => {
 
 	render() {
 		const { fav, show, orderSuccess, orderFailure, error } = this.props;
-    console.log(fav, "RPRPRPRPRPRPRPRPRPRRPRPRPRPRPRPR");
+    console.log(fav, show, "RPRPRPRPRPRPRPRPRPRRPRPRPRPRPRPR");
 
 		return (
 			<div className="favList">
@@ -41,7 +41,7 @@ _handleAddCart = (fav) => {
 			 })}
 
        <div className="favorite-add-button">
-                <button className="add" name={addToFav} onClick={this._handleAddCart} value={this.props.fav}>
+                <button className="add" name={addToFav} onClick={this._handleAddCart} value={this.props.show}>
                   ADD TO FAVORITE
                 </button>
 
