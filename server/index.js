@@ -58,7 +58,7 @@ app.post("/signup", function(req, res) {
 	})
 		.then(function(user) {
 			req.session.userid = user.id;
-			res.redirect("/home");
+			res.redirect("/search");
 		})
 		.catch(function(err) {
 			console.log(err);

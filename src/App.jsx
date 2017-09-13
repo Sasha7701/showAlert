@@ -9,6 +9,7 @@ import reducers from "./reducers";
 import Search from "pages/Search";
 import Show from "pages/Show";
 import Fav from "pages/Fav";
+import Home from "pages/Home";
 //import favList from "pages/favList";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -23,8 +24,9 @@ class App extends React.Component {
 						{/* <Link to="/" className="App-title">
 							<h1>Show Search</h1>
 						</Link> */}
-						<Navigation/>
+
 						<Switch>
+							<Route exact path="/home" component={Home} />
 							<Route exact path="/Search" component={Search} />
 							<Route exact path="/Show/:showId" component={Show}/>
 							<Route exact path="/Fav" component={Fav} />
