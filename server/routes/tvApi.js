@@ -1,6 +1,7 @@
 import express from "express";
 import Show from "../models/show";
 import apiErr from "../util/apiErr";
+import apiRes from "../util/apiRes";
 const User = require("../models/user");
 const renderTemplate = require("../util/renderTemplate");
 const requireLoggedIn = require("../middleware/requireLoggedIn");
@@ -63,11 +64,13 @@ router.get('/search', function(req, res) {
 
 router.post("/fav", (req, res) => {
   console.log( req.body, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-const shows = req.body.show.map((obj)=> {
-  return {
-    showId: obj.show.id,
-    name: obj.show.name,
-  };
+  const shows = req.body.show.map((obj)=> {
+    return {
+      showId: obj.show.id,
+      userId: req.user.get("id"),
+      name: obj.show.name,
+    };
+  });
 //console.log(shows,  "+++++++++++++++++++++++++++++++++++=========");
 
 // 	if (errors) {
@@ -82,13 +85,18 @@ const shows = req.body.show.map((obj)=> {
 // 	}
 //
 // 	// First create the order
- Show.create({
- id: obj.show.id,
-name: obj.show.name,
-time: obj.show.time,
-days: obj.show.days,
+
+  Show.bulkCreate(shows).then((dbShows) => {
+    apiRes(req, res, { success: true });
+  });
+  console.log(shows,"+++++++++++++++++++++++++++++++++++=========");
+});
+
+
+router.get("/fav", (req, res) => {
+  req.user.getShows().then((shows) => {
+    apiRes(req, res, { shows });
   });
 });
-console.log(shows,"+++++++++++++++++++++++++++++++++++=========");
-});
+
 module.exports = router;
