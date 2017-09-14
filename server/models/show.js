@@ -19,7 +19,7 @@ const Show = sequelize.define("show", {
 		notNull: true,
 	},
 	time: {
-	 type: Sequelize.INTEGER,
+	 type: Sequelize.STRING,
 	 notNull: true,
 	},
 	days: {

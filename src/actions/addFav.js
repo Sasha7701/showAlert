@@ -12,10 +12,10 @@ console.log( show, "QQQQQQQQQQ");
 		dispatch({
 			type: "SUBMIT_ORDER_START",
 		});
-		console.log("submitList( fav)", fav.name, show, showIds);
+		console.log("submitList( fav)", fav.name, show.id, showIds);
 		API.post('/fav', {
 			args: {
-			show,
+				show,
       },
 		})
 			.then((res) => {

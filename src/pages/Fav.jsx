@@ -47,9 +47,9 @@ _handleAddCart = (fav) => {
 
    							{ console.log(fav) }
    							</div>
-			</div>
-		);
-	}
+          </div>
+	         );
+}
 }
 
 function mapStateToProps(state, props) {

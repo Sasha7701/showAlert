@@ -63,12 +63,14 @@ router.get('/search', function(req, res) {
 
 
 router.post("/fav", (req, res) => {
-  console.log( req.body, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-  const shows = req.body.show.map((obj)=> {
+  console.log( req.body.show, "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+  const shows = req.body.show.map((obj) => {
     return {
       showId: obj.show.id,
       userId: req.user.get("id"),
       name: obj.show.name,
+      time: obj.show.schedule.time,
+      days: obj.show.schedule.days,
     };
   });
 //console.log(shows,  "+++++++++++++++++++++++++++++++++++=========");
@@ -93,8 +95,9 @@ router.post("/fav", (req, res) => {
 });
 
 
-router.get("/fav", (req, res) => {
+router.get("/saved", (req, res) => {
   req.user.getShows().then((shows) => {
+console.log(shows, "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     apiRes(req, res, { shows });
   });
 });

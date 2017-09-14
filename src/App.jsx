@@ -9,7 +9,7 @@ import reducers from "./reducers";
 import Search from "pages/Search";
 import Show from "pages/Show";
 import Fav from "pages/Fav";
-//import favList from "pages/favList";
+import Saved from "pages/Saved";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(reduxThunk)));
@@ -28,6 +28,7 @@ class App extends React.Component {
 							<Route exact path="/Search" component={Search} />
 							<Route exact path="/Show/:showId" component={Show}/>
 							<Route exact path="/Fav" component={Fav} />
+							<Route exact path="/Saved" component={Saved} />
 						</Switch>
 					</div>
 				</BrowserRouter>

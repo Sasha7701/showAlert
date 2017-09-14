@@ -18,6 +18,9 @@ class Navigation extends Component {
 		}, {
 			to: "/fav",
 			text: "Favorites",
+		},{
+			to: "/saved",
+			text: "Saved",
 		},
 		];
 
