@@ -1,0 +1,262 @@
+diff --git a/src/App.jsx b/src/App.jsx
+index a044ca8..7af20e2 100755
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -2,7 +2,7 @@ import "./App.scss";
+ import React from "react";
+ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+ import { createStore, applyMiddleware, compose } from "redux";
+-import Navigation from "components/Nav";
++import Navigation from "components/Navigation";
+ import { Provider } from "react-redux";
+ import reduxThunk from "redux-thunk";
+ import reducers from "./reducers";
+@@ -10,6 +10,7 @@ import Search from "pages/Search";
+ import Show from "pages/Show";
+ import Fav from "pages/Fav";
+ import Saved from "pages/Saved";
++import Home from "pages/Home";
+ 
+ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+ const store = createStore(reducers, composeEnhancers(applyMiddleware(reduxThunk)));
+@@ -23,7 +24,7 @@ class App extends React.Component {
+ 						{/* <Link to="/" className="App-title">
+ 							<h1>Show Search</h1>
+ 						</Link> */}
+-
++						<Navigation/>
+ 						<Switch>
+ 							<Route exact path="/home" component={Home} />
+ 							<Route exact path="/Search" component={Search} />
+diff --git a/src/actions/addFav.js b/src/actions/addFav.js
+index d0294f6..35a5478 100644
+--- a/src/actions/addFav.js
++++ b/src/actions/addFav.js
+@@ -13,7 +13,7 @@ console.log( show, "QQQQQQQQQQ");
+ 			type: "SUBMIT_ORDER_START",
+ 		});
+ 		console.log("submitList( fav)", fav.name, show.id, showIds);
+-		API.post('/fav', {
++		API.post('/fav',{
+ 			args: {
+ 				show,
+       },
+diff --git a/src/actions/dbShow.js b/src/actions/dbShow.js
+index a15cde9..8f6afec 100644
+--- a/src/actions/dbShow.js
++++ b/src/actions/dbShow.js
+@@ -8,8 +8,8 @@ export function dbShow(){
+ 			console.log(" getAll() action/function   res.data: ", res.data.shows);
+ 			if (res.data) {
+ 				dispatch({
+-					type: "SHOWS_ALL_SUCCESS",
+-					shows: res.data.shows,
++					type: "SHOWS_SHOWS_SUCCESS",
++					shows: res.data,
+ 				});
+ 			}
+ 			else {
+diff --git a/src/components/Nav.jsx b/src/components/Nav.jsx
+deleted file mode 100644
+index 4d9452a..0000000
+--- a/src/components/Nav.jsx
++++ /dev/null
+@@ -1,45 +0,0 @@
+-import "./Nav.scss";
+-import React, { Component } from "react";
+-import { NavLink, Link } from "react-router-dom";
+-import { connect } from "react-redux";
+-import PropTypes from "prop-types";
+-
+-
+-
+-
+-class Navigation extends Component {
+-	render() {
+-		const links = [{
+-			to: "/search",
+-			text: "Search",
+-		}, {
+-			to: "/fav",
+-			text: "Favorites",
+-		},{
+-			to: "/saved",
+-			text: "Saved",
+-		},
+-		];
+-
+-
+-		return (
+-			<nav className="Nav">
+-				{links.map((link) => {
+-					return (
+-						<NavLink
+-							key={link.to}
+-							to={link.to}
+-							className="Nav-link"
+-							activeClassName="is-active"
+-							exact
+-						>
+-							{link.text}
+-						</NavLink>
+-					);
+-				})}
+-			</nav>
+-		);
+-	}
+-}
+-
+-export default Navigation;
+diff --git a/src/components/Nav.scss b/src/components/Nav.scss
+deleted file mode 100644
+index 4123a32..0000000
+--- a/src/components/Nav.scss
++++ /dev/null
+@@ -1,40 +0,0 @@
+-
+-.Nav {
+-	text-align: center;
+-	padding: 20px;
+-	margin-bottom: 20px;
+-	// background: rgb(232,239,213);
+-	// border-bottom: 1px solid #000;
+-
+-	&-link {
+-		padding: 0 4px;
+-		color: rgb(222, 214, 156);
+-		text-decoration: none;
+-
+-		&.is-active,
+-		&:hover {
+-			color: rgb(20,41,83);
+-			;
+-		}
+-
+-		&.is-active {
+-			text-decoration: underline;
+-		}
+-	}
+-}
+-
+-.Nav-Link-Home {
+-padding: 0 4px;
+-color: rgb(222, 214, 156);
+-text-decoration: none;
+-
+-	&.is-active,
+-	&:hover {
+-		color: rgb(20,41,83);
+-		;
+-	}
+-
+-&.is-active {
+-	text-decoration: underline;
+-	}
+-}
+diff --git a/src/pages/Fav.jsx b/src/pages/Fav.jsx
+index 48ac29b..062e9c5 100644
+--- a/src/pages/Fav.jsx
++++ b/src/pages/Fav.jsx
+@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
+ //import PropTypes from 'prop-types';
+ import { connect } from "react-redux";
+ import { addToFav } from "actions/addFav.js";
+-import Navigation from "components/Nav";
++
+ 
+ class Fav extends Component {
+ 	 constructor(props) {
+@@ -27,7 +27,7 @@ _handleAddCart = (fav) => {
+ 
+ 		return (
+ 			<div className="favList">
+-				<Navigation />
++			
+ 				{fav.map((show) => {
+ 					return (
+ 						<div className = "show_info">
+diff --git a/src/pages/Saved.jsx b/src/pages/Saved.jsx
+index 5f3ee62..ea48422 100644
+--- a/src/pages/Saved.jsx
++++ b/src/pages/Saved.jsx
+@@ -16,25 +16,30 @@ class Saved extends Component {
+ 		 console.log(this.props, "ffffffffffffffffffff");
+ 		const { shows, isLoading, error } = this.props;
+      console.log(shows, ":::::::::");
+-    if (!shows) {
+-			 return <Loader/>;
++    if (shows && shows.shows) {
++      return (
++      <div>{shows.shows.map((show) => {
++         console.log( shows.shows,"DDDDDDDDDDDDDDDDDDDDDDDDDDD");
++         return (
++           <div className="show">
++             <h1 className = "show-name">{show.name}</h1>
++           </div>);
++      })
++      }
++      </div>);
++
+ 		 }
+ 		 else {
+-		 return (
+-			 <div className="show">
+-				 <h1 className = "show-name">{shows}</h1>
+-
+-
+-			</div>
++       return <Loader/>;
++    }
++  }
+ 
+-			);
+-	}
+-}
+ }
++
+ function mapStateToProps(state, props) {
+ const { shows, error, isLoading } = state.dbShow;
+ 	return {
+-    shows,
++    shows: shows,
+   	isLoading,
+   	error,
+ 
+diff --git a/src/pages/Search.jsx b/src/pages/Search.jsx
+index 1d06437..59de98a 100644
+--- a/src/pages/Search.jsx
++++ b/src/pages/Search.jsx
+@@ -2,10 +2,9 @@ import React from "react";
+ import PropTypes from "prop-types";
+ import { connect } from "react-redux";
+ import { searchShows } from "actions/search";
+-import ShowResult from "components/ShowResult";
+ import "./Search.scss";
+ import { Link } from "react-router-dom";
+-import Navigation from "components/Nav";
++
+ 
+ class Search extends React.Component {
+ 	state = {
+@@ -62,7 +61,7 @@ class Search extends React.Component {
+ 
+ 				<div className="mainpic">
+ 					<div className="black">
+-						<Navigation />
++			
+ 				<form className="Search-form" onSubmit={this._handleSubmit}>
+ 					<div className="search-input">
+ 					<input
+diff --git a/src/reducers/dbShow.js b/src/reducers/dbShow.js
+index 3b0f8dd..ce3570b 100644
+--- a/src/reducers/dbShow.js
++++ b/src/reducers/dbShow.js
+@@ -16,7 +16,7 @@ console.log(action.shows);
+ 			shows: [],
+ 		};
+ 
+-	case "SHOWS_ALL_SUCCESS":
++	case "SHOWS_SHOWS_SUCCESS":
+ 		return {
+ 			...state,
+ 			isLoading: false,

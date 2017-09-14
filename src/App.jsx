@@ -2,7 +2,7 @@ import "./App.scss";
 import React from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import { createStore, applyMiddleware, compose } from "redux";
-import Navigation from "components/Nav";
+import Navigation from "components/Navigation";
 import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
 import reducers from "./reducers";
@@ -10,6 +10,7 @@ import Search from "pages/Search";
 import Show from "pages/Show";
 import Fav from "pages/Fav";
 import Saved from "pages/Saved";
+import Home from "pages/Home";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(reduxThunk)));
@@ -23,7 +24,7 @@ class App extends React.Component {
 						{/* <Link to="/" className="App-title">
 							<h1>Show Search</h1>
 						</Link> */}
-
+						<Navigation/>
 						<Switch>
 							<Route exact path="/home" component={Home} />
 							<Route exact path="/Search" component={Search} />

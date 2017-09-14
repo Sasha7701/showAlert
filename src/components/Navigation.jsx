@@ -1,4 +1,4 @@
-import "./Nav.scss";
+import "./Navigation.scss";
 import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -12,6 +12,9 @@ class Navigation extends Component {
 		const links = [{
 			to: "/search",
 			text: "Search",
+		},	{
+			to: "/show",
+			text: "Show",
 		}, {
 			to: "/fav",
 			text: "Favorites",

@@ -16,25 +16,30 @@ class Saved extends Component {
 		 console.log(this.props, "ffffffffffffffffffff");
 		const { shows, isLoading, error } = this.props;
      console.log(shows, ":::::::::");
-    if (!shows) {
-			 return <Loader/>;
+    if (shows && shows.shows) {
+      return (
+      <div>{shows.shows.map((show) => {
+         console.log( shows.shows,"DDDDDDDDDDDDDDDDDDDDDDDDDDD");
+         return (
+           <div className="show">
+             <h1 className = "show-name">{show.name}</h1>
+           </div>);
+      })
+      }
+      </div>);
+
 		 }
 		 else {
-		 return (
-			 <div className="show">
-				 <h1 className = "show-name">{shows}</h1>
+       return <Loader/>;
+    }
+  }
 
-
-			</div>
-
-			);
-	}
 }
-}
+
 function mapStateToProps(state, props) {
 const { shows, error, isLoading } = state.dbShow;
 	return {
-    shows,
+    shows: shows,
   	isLoading,
   	error,
 

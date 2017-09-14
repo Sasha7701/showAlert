@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { addToFav } from "actions/addFav.js";
-import Navigation from "components/Nav";
+
 
 class Fav extends Component {
 	 constructor(props) {
@@ -27,7 +27,7 @@ _handleAddCart = (fav) => {
 
 		return (
 			<div className="favList">
-				<Navigation />
+			
 				{fav.map((show) => {
 					return (
 						<div className = "show_info">

@@ -16,7 +16,7 @@ console.log(action.shows);
 			shows: [],
 		};
 
-	case "SHOWS_ALL_SUCCESS":
+	case "SHOWS_SHOWS_SUCCESS":
 		return {
 			...state,
 			isLoading: false,

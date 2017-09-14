@@ -13,7 +13,7 @@ console.log( show, "QQQQQQQQQQ");
 			type: "SUBMIT_ORDER_START",
 		});
 		console.log("submitList( fav)", fav.name, show.id, showIds);
-		API.post('/fav', {
+		API.post('/fav',{
 			args: {
 				show,
       },

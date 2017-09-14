@@ -8,8 +8,8 @@ export function dbShow(){
 			console.log(" getAll() action/function   res.data: ", res.data.shows);
 			if (res.data) {
 				dispatch({
-					type: "SHOWS_ALL_SUCCESS",
-					shows: res.data.shows,
+					type: "SHOWS_SHOWS_SUCCESS",
+					shows: res.data,
 				});
 			}
 			else {

@@ -2,10 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchShows } from "actions/search";
-import ShowResult from "components/ShowResult";
 import "./Search.scss";
 import { Link } from "react-router-dom";
-import Navigation from "components/Nav";
+
 
 class Search extends React.Component {
 	state = {
@@ -62,7 +61,7 @@ class Search extends React.Component {
 
 				<div className="mainpic">
 					<div className="black">
-						<Navigation />
+			
 				<form className="Search-form" onSubmit={this._handleSubmit}>
 					<div className="search-input">
 					<input
