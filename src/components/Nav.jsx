@@ -24,19 +24,18 @@ class Navigation extends Component {
 
 		return (
 			<nav className="Nav">
-				{links.map((link) => {
-					return (
-						<NavLink
-							key={link.to}
-							to={link.to}
-							className="Nav-link"
-							activeClassName="is-active"
-							exact
-						>
-							{link.text}
-						</NavLink>
-					);
-				})}
+
+				<header id="header">
+						<h1><a href="">Show <i>Alert</i></a></h1>
+						<nav id="nav">
+							<ul>
+								<li><Link to="/home" className="home">Home</Link></li>
+								<li><Link to="/search" className="search">Search</Link></li>
+								<li><Link to="/fav" className="fav">Favorite</Link></li>
+								<li><Link to="" className="user">New Shows</Link></li>
+							</ul>
+						</nav>
+					</header>
 			</nav>
 		);
 	}

@@ -13,13 +13,13 @@ class Home extends React.Component {
 		return (
 		<div className="" >
 		<header id="header">
-				<h1><a href=""><img src="logo.png" height="100" width="100"/></a></h1>
+				<h1><a href="">Show <i>Alert</i></a></h1>
 				<nav id="nav">
 					<ul>
 						<li><a href="/home">Home</a></li>
 						<li><a href="/search">Search</a></li>
 						<li><a href="/fav">Favorite</a></li>
-						<li><a href="#" className="button special">Sign Up</a></li>
+						<li><a href="#" className="button special">New Shows</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -37,10 +37,12 @@ class Home extends React.Component {
 
 			<section id="one" className="wrapper style1 special">
 				<div className="container">
+					<div className="developer">
 					<header className="major">
 						<h2>DEVELOPERS PROFILES</h2>
 						<p>Show alert was creacted by two FULL STACK DEVELOPERS, check them out!</p>
 					</header>
+				</div>
 					<div className="row 150%">
 						<div className="4u 12u$(medium)">
 							<section className="box">
@@ -114,24 +116,24 @@ class Home extends React.Component {
 					<div className="row">
 						<div className="8u 12u$(medium)">
 							<ul className="copyright">
-								<li>&copy; Untitled. All rights reserved.</li>
-								<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+								<li>&copy; Untitled. All rights reserved by the Alert Show Team.</li>
+								<li>Design: <a href="http://templated.co">by Donald and Alex</a></li>
 								<li>Images: <a href="http://unsplash.com">Unsplash</a></li>
 							</ul>
 						</div>
 						<div className="4u$ 12u$(medium)">
 							<ul className="icons">
 								<li>
-									<a className="icon rounded fa-facebook"><span className="label">Facebook</span></a>
+									<a className="icon rounded fa-facebook">F<span className="label">Facebook</span></a>
 								</li>
 								<li>
-									<a className="icon rounded fa-twitter"><span className="label">Twitter</span></a>
+									<a className="icon rounded fa-twitter">T<span className="label">Twitter</span></a>
 								</li>
 								<li>
-									<a className="icon rounded fa-google-plus"><span className="label">Google+</span></a>
+									<a className="icon rounded fa-google-plus">G<span className="label">Google+</span></a>
 								</li>
 								<li>
-									<a className="icon rounded fa-linkedin"><span className="label">LinkedIn</span></a>
+									<a className="icon rounded fa-linkedin">L<span className="label">LinkedIn</span></a>
 								</li>
 							</ul>
 						</div>
