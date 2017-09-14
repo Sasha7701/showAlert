@@ -59,10 +59,10 @@ class Search extends React.Component {
 
 
 			<div className="Search">
-
+				<Navigation />
 				<div className="mainpic">
 					<div className="black">
-						<Navigation />
+
 				<form className="Search-form" onSubmit={this._handleSubmit}>
 					<div className="search-input">
 					<input

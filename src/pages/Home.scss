@@ -181,6 +181,10 @@
 		margin-top: -0.8em;
 		line-height: 1.5em;
 	}
+	header h2 {
+		color: #1db1e4;
+		text-shadow: 1px 1px;
+	}
 
 	header h4 + p,
 	header h5 + p,
@@ -206,6 +210,9 @@
 			color: #fdfbfb;
 		}
 
+		.developer {
+			background: #444;
+		}
 /* Form */
 
 	form {
@@ -1024,6 +1031,7 @@
 						vertical-align: middle;
 					}
 
+
 		#header .container {
 			position: relative;
 		}
@@ -1040,7 +1048,7 @@
 /* Banner */
 
 	#banner {
-		background-image: url("Arrow.jpg"),  url("tv-show-pic.jpg");
+		background-image: url("Arrow.jpg");
 		background-position: center center;
 		background-size: cover;
 		color: #ffffff;
@@ -1236,4 +1244,3 @@
 		.grid-demo .row.flush > div:last-child span {
 			border-radius: 0 4px 4px 0;
 		}
-		
