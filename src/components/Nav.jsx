@@ -12,9 +12,6 @@ class Navigation extends Component {
 		const links = [{
 			to: "/search",
 			text: "Search",
-		},	{
-			to: "/show",
-			text: "Show",
 		}, {
 			to: "/fav",
 			text: "Favorites",

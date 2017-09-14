@@ -23,8 +23,9 @@ class App extends React.Component {
 						{/* <Link to="/" className="App-title">
 							<h1>Show Search</h1>
 						</Link> */}
-						<Navigation/>
+
 						<Switch>
+							<Route exact path="/home" component={Home} />
 							<Route exact path="/Search" component={Search} />
 							<Route exact path="/Show/:showId" component={Show}/>
 							<Route exact path="/Fav" component={Fav} />
