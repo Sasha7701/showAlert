@@ -67,7 +67,7 @@ class Home extends React.Component {
 				<div className="container">
 					<header className="major">
 						<h1>NEW EPISONDS HERE</h1>
-						<p>Take a look at up and coming TV shows that will shit your screens this Winter</p>
+						<p>Take a look at up and coming TV shows that will hit your screens this Winter</p>
 					</header>
 
 					<footer>

@@ -8,6 +8,7 @@ import reduxThunk from "redux-thunk";
 import reducers from "./reducers";
 import Search from "pages/Search";
 import Show from "pages/Show";
+import Home from "pages/Home";
 import Fav from "pages/Fav";
 import Saved from "pages/Saved";
 
