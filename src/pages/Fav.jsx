@@ -27,7 +27,7 @@ _handleAddCart = (fav) => {
 
 		return (
 			<div className="favList">
-				<Navigation />
+
 				{fav.map((show) => {
 					return (
 						<div className = "show_info">

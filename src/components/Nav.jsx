@@ -31,8 +31,9 @@ class Navigation extends Component {
 							<ul>
 								<li><Link to="/home" className="home">Home</Link></li>
 								<li><Link to="/search" className="search">Search</Link></li>
+								<li><Link to="/show" className="search">Show</Link></li>
 								<li><Link to="/fav" className="fav">Favorite</Link></li>
-								<li><Link to="" className="user">New Shows</Link></li>
+								<li><Link to="/saved" className="user">Saved</Link></li>
 							</ul>
 						</nav>
 					</header>

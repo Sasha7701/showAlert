@@ -59,7 +59,7 @@ class Search extends React.Component {
 
 
 			<div className="Search">
-				<Navigation />
+
 				<div className="mainpic">
 					<div className="black">
 

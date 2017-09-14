@@ -12,7 +12,7 @@ class Home extends React.Component {
 	render() {
 		return (
 		<div className="" >
-		<header id="header">
+		{/* <header id="header">
 				<h1><a href="">Show <i>Alert</i></a></h1>
 				<nav id="nav">
 					<ul>
@@ -22,7 +22,7 @@ class Home extends React.Component {
 						<li><a href="#" className="button special">New Shows</a></li>
 					</ul>
 				</nav>
-			</header>
+			</header> */}
 
 			<section id="banner">
 				<h2>Hi. This is Show Alert.</h2>
